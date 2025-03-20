@@ -21,9 +21,8 @@ const RetirementPlanCalculator = () => {
   const inflationRate = 0.04;
   const returnRate = 0.20;
 
-  // Referencia al contenedor del plan
+  // Referencias para desplazamiento
   const planRef = useRef(null);
-  // Referencia a la sección de WhatsApp
   const whatsappRef = useRef(null);
 
   // Función para formatear cantidades con comas
@@ -33,6 +32,16 @@ const RetirementPlanCalculator = () => {
       return "0.00";
     }
     return parsedNumber.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  // Función para formatear los valores del eje Y
+  const formatYAxis = (value) => {
+    if (value >= 1000000) {
+      return `${(value / 1000000).toFixed(1)}M`; // Convertir a millones (ej: 8M)
+    } else if (value >= 1000) {
+      return `${(value / 1000).toFixed(0)}k`; // Convertir a miles (ej: 700k)
+    }
+    return value; // Dejar valores pequeños como están
   };
 
   // Función para generar el párrafo descriptivo del plan
@@ -222,8 +231,8 @@ const RetirementPlanCalculator = () => {
             <LineChart data={plans[currentPlanIndex].projection}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="year" />
-              <YAxis />
-              <Tooltip />
+              <YAxis tickFormatter={formatYAxis} /> {/* Formatear eje Y */}
+              <Tooltip formatter={(value) => `$${formatNumber(value)}`} />
               <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
