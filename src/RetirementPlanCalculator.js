@@ -269,26 +269,4 @@ const RetirementPlanCalculator = () => {
             `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
             `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
             `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-            `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n` +
-            `- Rendimiento anual: 20%`
-          )}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "inline-block",
-            padding: "12px 24px",
-            background: "#25D366",
-            color: "white",
-            borderRadius: "4px",
-            textDecoration: "none",
-            fontWeight: "bold",
-          }}
-        >
-          Contáctanos por WhatsApp
-        </a>
-      </div>
-    </div>
-  );
-};
-
-export default RetirementPlanCalculator;
+            `- Capital
