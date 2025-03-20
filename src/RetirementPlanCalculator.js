@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"; // Importa useRef y useEffect
+import React, { useState, useRef } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const RetirementPlanCalculator = () => {
@@ -206,7 +206,7 @@ const RetirementPlanCalculator = () => {
       </div>
 
       {plans.length > 0 && (
-        <div ref={planRef} style={{ marginTop: "24px" }}> {/* Referencia al contenedor del plan */}
+        <div ref={planRef} style={{ marginTop: "24px" }}>
           <h3 style={{ fontSize: "20px", fontWeight: "600" }}>Detalles del Plan</h3>
           {generatePlanDescription(plans[currentPlanIndex])}
           <ResponsiveContainer width="100%" height={300}>
@@ -278,23 +278,33 @@ const RetirementPlanCalculator = () => {
         </div>
       )}
 
+      {/* Botón flotante de WhatsApp */}
       {plans.length > 0 && (
-        <div style={{ marginTop: "24px", textAlign: "center" }}>
-          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-            ¿Quisieras que te digamos cómo lograrlo? Muchas personas se están asociando en la cooperativa{" "}
-            <strong>"Lo Nuestro"</strong> para alcanzar sus metas de retiro. ¡Mándanos un mensaje y te decimos los siguientes pasos! Cabe mencionar que no cuesta nada.
-          </p>
+        <div
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            zIndex: 1000,
+          }}
+        >
           <a
             href={`https://wa.me/522481146831?text=${encodeURIComponent(
-              plans.length > 0
-                ? `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-                  `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-                  `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-                  `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-                  `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
-                : "Hola, quiero saber más sobre cómo lograr mi plan de retiro."
+              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
+              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
+              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
+              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
             )}`}
-            style={{ background: "#25D366", color: "white", padding: "8px", borderRadius: "4px", textDecoration: "none", display: "inline-block", marginTop: "16px" }}
+            style={{
+              background: "#25D366",
+              color: "white",
+              padding: "12px 24px",
+              borderRadius: "50px",
+              textDecoration: "none",
+              display: "inline-block",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            }}
           >
             Enviar mensaje por WhatsApp
           </a>
