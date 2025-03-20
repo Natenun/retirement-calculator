@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react"; // Importa useRef y useEffect
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const RetirementPlanCalculator = () => {
@@ -20,6 +20,9 @@ const RetirementPlanCalculator = () => {
 
   const inflationRate = 0.04;
   const returnRate = 0.20;
+
+  // Referencia al contenedor del plan
+  const planRef = useRef(null);
 
   // Función para formatear cantidades con comas
   const formatNumber = (number) => {
@@ -164,6 +167,11 @@ const RetirementPlanCalculator = () => {
       return updatedPlans;
     });
     setShowCustomOptions(true);
+
+    // Desplazar la pantalla al contenedor del plan
+    if (planRef.current) {
+      planRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   const nextPlan = () => setCurrentPlanIndex((index) => (index + 1) % plans.length);
@@ -198,7 +206,7 @@ const RetirementPlanCalculator = () => {
       </div>
 
       {plans.length > 0 && (
-        <div style={{ marginTop: "24px" }}>
+        <div ref={planRef} style={{ marginTop: "24px" }}> {/* Referencia al contenedor del plan */}
           <h3 style={{ fontSize: "20px", fontWeight: "600" }}>Detalles del Plan</h3>
           {generatePlanDescription(plans[currentPlanIndex])}
           <ResponsiveContainer width="100%" height={300}>
@@ -278,11 +286,13 @@ const RetirementPlanCalculator = () => {
           </p>
           <a
             href={`https://wa.me/522481146831?text=${encodeURIComponent(
-              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
+              plans.length > 0
+                ? `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+                  `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
+                  `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
+                  `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
+                  `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
+                : "Hola, quiero saber más sobre cómo lograr mi plan de retiro."
             )}`}
             style={{ background: "#25D366", color: "white", padding: "8px", borderRadius: "4px", textDecoration: "none", display: "inline-block", marginTop: "16px" }}
           >
