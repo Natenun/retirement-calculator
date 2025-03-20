@@ -31,62 +31,41 @@ const RetirementPlanCalculator = () => {
   };
 
   // Función para generar el párrafo descriptivo del plan
- const generatePlanDescription = (plan) => {
-  const {
-    retirementAge,
-    desiredIncome,
-    extraExpense,
-    currentInvestment,
-    futureSalary,
-    requiredCapital,
-    monthlyInvestment,
-  } = plan;
+  const generatePlanDescription = (plan) => {
+    const {
+      retirementAge,
+      desiredIncome,
+      extraExpense,
+      currentInvestment,
+      futureSalary,
+      requiredCapital,
+      monthlyInvestment,
+    } = plan;
 
-  return (
-    <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
-      <p>
-        Para poder retirarte a los <strong>{retirementAge} años</strong> con un ingreso mensual que te alcance para{" "}
-        <strong>${formatNumber(desiredIncome)} pesos</strong> de productos a precio de hoy, necesitarás en ese futuro:
-      </p>
-      <ul style={{ marginTop: "8px", marginLeft: "20px" }}>
-        <li>
-          Un ingreso mensual futuro de{" "}
-          <strong>${formatNumber(futureSalary)} pesos</strong> (ajustado por inflación).
-        </li>
-        <li>
-          Un capital requerido de aproximadamente{" "}
-          <strong>${formatNumber(requiredCapital)} pesos</strong>.
-        </li>
-      </ul>
-      <p style={{ marginTop: "16px" }}>
-        Y desde hoy, para poder lograrlo, deberás invertir{" "}
-        <strong>${formatNumber(monthlyInvestment)} pesos mensuales</strong> con un rendimiento anual de al menos{" "}
-        <strong>20%</strong>.
-      </p>
-      <p style={{ marginTop: "16px", fontStyle: "italic" }}>
-        ¿Quisieras que te digamos cómo lograrlo? Muchas personas se están asociando en la cooperativa{" "}
-        <strong>"Lo Nuestro"</strong> para alcanzar sus metas de retiro. ¡Mándanos un mensaje y te decimos los siguientes pasos! Cabe mencionar que no cuesta nada.
-      </p>
-      <a
-        href="https://wa.me/522481146831?text=Hola,%20quiero%20saber%20más%20sobre%20cómo%20lograr%20mi%20plan%20de%20retiro"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: "inline-block",
-          marginTop: "16px",
-          padding: "12px 24px",
-          background: "#25D366",
-          color: "white",
-          borderRadius: "4px",
-          textDecoration: "none",
-          fontWeight: "bold",
-        }}
-      >
-        Contáctanos por WhatsApp
-      </a>
-    </div>
-  );
-};
+    return (
+      <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
+        <p>
+          Para poder retirarte a los <strong>{retirementAge} años</strong> con un ingreso mensual que te alcance para{" "}
+          <strong>${formatNumber(desiredIncome)} pesos</strong> de productos a precio de hoy, necesitarás en ese futuro:
+        </p>
+        <ul style={{ marginTop: "8px", marginLeft: "20px" }}>
+          <li>
+            Un ingreso mensual futuro de{" "}
+            <strong>${formatNumber(futureSalary)} pesos</strong> (ajustado por inflación).
+          </li>
+          <li>
+            Un capital requerido de aproximadamente{" "}
+            <strong>${formatNumber(requiredCapital)} pesos</strong>.
+          </li>
+        </ul>
+        <p style={{ marginTop: "16px" }}>
+          Y desde hoy, para poder lograrlo, deberás invertir{" "}
+          <strong>${formatNumber(monthlyInvestment)} pesos mensuales</strong> con un rendimiento anual de al menos{" "}
+          <strong>20%</strong>.
+        </p>
+      </div>
+    );
+  };
 
   const validateInputs = (actualRetirementAge, actualAge) => {
     if (actualRetirementAge <= actualAge) {
@@ -123,7 +102,6 @@ const RetirementPlanCalculator = () => {
       accumulated = actualCurrentInvestment;
       for (let i = 1; i <= monthsToRetirement; i++) {
         accumulated = accumulated * (1 + r) + investment;
-        // Aplicar gasto extra cada 12 meses (1 año)
         if (actualExtraExpense > 0 && i % 12 === 0) {
           const adjustedExpense = actualExtraExpense * Math.pow(1 + inflationRate, i / 12);
           accumulated -= adjustedExpense;
@@ -150,7 +128,6 @@ const RetirementPlanCalculator = () => {
     for (let i = 1; i <= monthsToRetirement; i++) {
       const interesMensual = accumulated * r;
       accumulated += interesMensual + monthlyInvestment;
-      // Aplicar gasto extra cada 12 meses (1 año)
       if (actualExtraExpense > 0 && i % 12 === 0) {
         const adjustedExpense = actualExtraExpense * Math.pow(1 + inflationRate, i / 12);
         accumulated -= adjustedExpense;
@@ -185,6 +162,12 @@ const RetirementPlanCalculator = () => {
       <div style={{ background: "white", borderRadius: "8px", padding: "16px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
         <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}>Calculadora de Plan de Retiro</h2>
         {error && <p style={{ color: "red" }}>{error}</p>}
+        <div style={{ marginBottom: "16px" }}>
+          <p style={{ fontSize: "16px", color: "#333" }}>
+            Para generar tu plan de retiro, primero necesitamos saber tu <strong>edad actual</strong>.
+            Esto nos ayudará a calcular cuánto tiempo tienes para ahorrar antes de retirarte.
+          </p>
+        </div>
         <label style={{ display: "block", fontSize: "14px", marginBottom: "8px" }}>Tu edad</label>
         <input
           type="number"
@@ -205,18 +188,16 @@ const RetirementPlanCalculator = () => {
       {plans.length > 0 && (
         <div style={{ marginTop: "24px" }}>
           <h3 style={{ fontSize: "20px", fontWeight: "600" }}>Detalles del Plan</h3>
-          <p>{generatePlanDescription(plans[currentPlanIndex])}</p>
-          <div style={{ width: "100%", height: "300px" }}>
-            <ResponsiveContainer>
-              <LineChart data={plans[currentPlanIndex].projection}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="year" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          {generatePlanDescription(plans[currentPlanIndex])}
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={plans[currentPlanIndex].projection}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="year" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "16px" }}>
             <button
               onClick={prevPlan}
@@ -237,6 +218,9 @@ const RetirementPlanCalculator = () => {
       {showCustomOptions && (
         <div style={{ marginTop: "24px" }}>
           <h3 style={{ fontSize: "20px", fontWeight: "600" }}>Ajusta tu plan</h3>
+          <p style={{ fontSize: "16px", color: "#333", marginBottom: "16px" }}>
+            ¿Quieres explorar diferentes escenarios? Ajusta los siguientes datos para ver cómo cambia tu plan de retiro:
+          </p>
           <label>Edad de retiro</label>
           <input
             type="number"
@@ -273,6 +257,36 @@ const RetirementPlanCalculator = () => {
           </button>
         </div>
       )}
+
+      <div style={{ marginTop: "24px", textAlign: "center" }}>
+        <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+          ¿Quisieras que te digamos cómo lograrlo? Muchas personas se están asociando en la cooperativa{" "}
+          <strong>"Lo Nuestro"</strong> para alcanzar sus metas de retiro. ¡Mándanos un mensaje y te decimos los siguientes pasos! Cabe mencionar que no cuesta nada.
+        </p>
+        <a
+          href={`https://wa.me/522481146831?text=${encodeURIComponent(
+            `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+            `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
+            `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
+            `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
+            `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n` +
+            `- Rendimiento anual: 20%`
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "inline-block",
+            padding: "12px 24px",
+            background: "#25D366",
+            color: "white",
+            borderRadius: "4px",
+            textDecoration: "none",
+            fontWeight: "bold",
+          }}
+        >
+          Contáctanos por WhatsApp
+        </a>
+      </div>
     </div>
   );
 };
