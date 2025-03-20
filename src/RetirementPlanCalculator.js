@@ -23,6 +23,8 @@ const RetirementPlanCalculator = () => {
 
   // Referencia al contenedor del plan
   const planRef = useRef(null);
+  // Referencia a la sección de WhatsApp
+  const whatsappRef = useRef(null);
 
   // Función para formatear cantidades con comas
   const formatNumber = (number) => {
@@ -177,6 +179,13 @@ const RetirementPlanCalculator = () => {
   const nextPlan = () => setCurrentPlanIndex((index) => (index + 1) % plans.length);
   const prevPlan = () => setCurrentPlanIndex((index) => (index - 1 + plans.length) % plans.length);
 
+  // Función para desplazar a la sección de WhatsApp
+  const scrollToWhatsApp = () => {
+    if (whatsappRef.current) {
+      whatsappRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
       <div style={{ background: "white", borderRadius: "8px", padding: "16px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
@@ -278,7 +287,29 @@ const RetirementPlanCalculator = () => {
         </div>
       )}
 
-      {/* Botón flotante de WhatsApp */}
+      {/* Sección de WhatsApp */}
+      {plans.length > 0 && (
+        <div ref={whatsappRef} style={{ marginTop: "24px", textAlign: "center" }}>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            ¿Quisieras que te digamos cómo lograrlo? Muchas personas se están asociando en la cooperativa{" "}
+            <strong>"Lo Nuestro"</strong> para alcanzar sus metas de retiro. ¡Mándanos un mensaje y te decimos los siguientes pasos! Cabe mencionar que no cuesta nada.
+          </p>
+          <a
+            href={`https://wa.me/522481146831?text=${encodeURIComponent(
+              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
+              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
+              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
+              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
+            )}`}
+            style={{ background: "#25D366", color: "white", padding: "8px", borderRadius: "4px", textDecoration: "none", display: "inline-block", marginTop: "16px" }}
+          >
+            Enviar mensaje por WhatsApp
+          </a>
+        </div>
+      )}
+
+      {/* Botón circular "Continuar" */}
       {plans.length > 0 && (
         <div
           style={{
@@ -288,26 +319,25 @@ const RetirementPlanCalculator = () => {
             zIndex: 1000,
           }}
         >
-          <a
-            href={`https://wa.me/522481146831?text=${encodeURIComponent(
-              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
-            )}`}
+          <button
+            onClick={scrollToWhatsApp}
             style={{
-              background: "#25D366",
+              background: "#3b82f6",
               color: "white",
-              padding: "12px 24px",
-              borderRadius: "50px",
-              textDecoration: "none",
-              display: "inline-block",
+              padding: "12px",
+              borderRadius: "50%",
+              border: "none",
+              cursor: "pointer",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "50px",
+              height: "50px",
             }}
           >
-            Enviar mensaje por WhatsApp
-          </a>
+            <span style={{ fontSize: "14px", fontWeight: "bold" }}>→</span>
+          </button>
         </div>
       )}
     </div>
