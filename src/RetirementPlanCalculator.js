@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const RetirementPlanCalculator = () => {
@@ -60,24 +60,26 @@ const RetirementPlanCalculator = () => {
       <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
         <p>
           Para poder retirarte a los <strong>{retirementAge} años</strong> con un ingreso mensual que te alcance para{" "}
-          <strong>${formatNumber(desiredIncome)} pesos</strong> a precio de hoy, necesitarás en ese futuro:
+          <strong>${formatNumber(desiredIncome)} pesos</strong> de productos a precio de hoy, necesitarás en ese futuro:
         </p>
         <ul style={{ marginTop: "8px", marginLeft: "20px" }}>
           <li>
             Un ingreso mensual futuro de{" "}
-            <strong>${formatNumber(futureSalary)} pesos</strong> (ajustado por inflación) ya que las cosas costarán más.
+            <strong>${formatNumber(futureSalary)} pesos</strong> (ajustado por inflación).
           </li>
           <li>
             Un capital requerido de aproximadamente{" "}
-            <strong>${formatNumber(requiredCapital)} pesos el cual te generará los ingresos mensuales</strong>.
+            <strong>${formatNumber(requiredCapital)} pesos</strong>.
           </li>
-          <li>
-              y contemplamos Gastos extras anuales de{" "}
-              <strong>${formatNumber(extraExpense)} pesos</strong>, para que puedas darte tus lujos los cuales serán cubiertos sin afectar tu meta.
+          {extraExpense > 0 && ( // Mostrar solo si hay gastos extras
+            <li>
+              Gastos extras anuales de{" "}
+              <strong>${formatNumber(extraExpense)} pesos</strong>, los cuales serán cubiertos sin afectar tu meta.
             </li>
+          )}
         </ul>
         <p style={{ marginTop: "16px" }}>
-          Por lo tanto desde hoy, para poder lograrlo, deberás invertir{" "}
+          Y desde hoy, para poder lograrlo, deberás invertir{" "}
           <strong>${formatNumber(monthlyInvestment)} pesos mensuales</strong> con un rendimiento anual de al menos{" "}
           <strong>20%</strong>.
         </p>
@@ -178,7 +180,7 @@ const RetirementPlanCalculator = () => {
 
     setPlans((prevPlans) => {
       const updatedPlans = [...prevPlans, newPlan];
-      setCurrentPlanIndex(updatedPlans.length - 1);
+      setCurrentPlanIndex(updatedPlans.length - 1); // Actualizar el índice del plan actual
       return updatedPlans;
     });
     setShowCustomOptions(true);
@@ -284,7 +286,7 @@ const RetirementPlanCalculator = () => {
             onChange={(e) => setCustomExtraExpense(parseInt(e.target.value))}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
-          <label>Inversión actual (sólo miembros lo nuestro)</label>
+          <label>Inversión actual</label>
           <input
             type="number"
             value={customCurrentInvestment}
@@ -304,12 +306,12 @@ const RetirementPlanCalculator = () => {
       {plans.length > 0 && (
         <div ref={whatsappRef} style={{ marginTop: "24px", textAlign: "center" }}>
           <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-            No es tan difícil lograrlo continua para presentarte {" "}
-            <strong>"Lo Nuestro"</strong> y logres alcanzar sus metas. ¡Mándanos un mensaje y te decimos los siguientes pasos! Cabe mencionar que no cuesta nada.
+            ¿Quisieras que te digamos cómo lograrlo? Muchas personas se están asociando en la cooperativa{" "}
+            <strong>"Lo Nuestro"</strong> para alcanzar sus metas de retiro. ¡Mándanos un mensaje y te decimos los siguientes pasos! Cabe mencionar que no cuesta nada.
           </p>
           <a
             href={`https://wa.me/522481146831?text=${encodeURIComponent(
-              `Hola, quiero saber más sobre cómo lograr mi plan. Aquí están los detalles:\n\n` +
+              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
               `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
               `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
               `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
@@ -349,12 +351,4 @@ const RetirementPlanCalculator = () => {
               height: "50px",
             }}
           >
-            <span style={{ fontSize: "14px", fontWeight: "bold" }}>→</span>
-          </button>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default RetirementPlanCalculator;
+            <span style={{ fontSize:
