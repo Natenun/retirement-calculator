@@ -112,7 +112,10 @@ const RetirementPlanCalculator = () => {
 
     let low = 0;
     let high = futureSalary * 100;
-    while (high - low > 0.01) {
+    let iterationCount = 0;
+    const maxIterations = 1000;
+
+    while (high - low > 0.01 && iterationCount < maxIterations) {
       monthlyInvestment = (high + low) / 2;
       accumulated = calculateAccumulated(monthlyInvestment);
 
@@ -121,6 +124,12 @@ const RetirementPlanCalculator = () => {
       } else {
         low = monthlyInvestment;
       }
+      iterationCount++;
+    }
+
+    if (iterationCount >= maxIterations) {
+      setError("No se pudo calcular la inversión mensual. Por favor, revisa los valores ingresados.");
+      return;
     }
 
     let data = [];
@@ -149,8 +158,11 @@ const RetirementPlanCalculator = () => {
       projection: data,
     };
 
-    setPlans((prevPlans) => [...prevPlans, newPlan]);
-    setCurrentPlanIndex(plans.length);
+    setPlans((prevPlans) => {
+      const updatedPlans = [...prevPlans, newPlan];
+      setCurrentPlanIndex(updatedPlans.length - 1);
+      return updatedPlans;
+    });
     setShowCustomOptions(true);
   };
 
@@ -265,8 +277,21 @@ const RetirementPlanCalculator = () => {
         </p>
         <a
           href={`https://wa.me/522481146831?text=${encodeURIComponent(
-            `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-            `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-            `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-            `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-            `- Capital
+            plans.length > 0
+              ? `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+                `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
+                `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
+                `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
+                `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
+              : "Hola, quiero saber más sobre cómo lograr mi plan de retiro."
+          )}`}
+          style={{ background: "#25D366", color: "white", padding: "8px", borderRadius: "4px", textDecoration: "none", display: "inline-block", marginTop: "16px" }}
+        >
+          Enviar mensaje por WhatsApp
+        </a>
+      </div>
+    </div>
+  );
+};
+
+export default RetirementPlanCalculator;
