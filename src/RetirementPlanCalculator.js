@@ -60,20 +60,24 @@ const RetirementPlanCalculator = () => {
       <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
         <p>
           Para poder retirarte a los <strong>{retirementAge} años</strong> con un ingreso mensual que te alcance para{" "}
-          <strong>${formatNumber(desiredIncome)} pesos</strong> de productos a precio de hoy, necesitarás en ese futuro:
+          <strong>${formatNumber(desiredIncome)} pesos</strong> a precio de hoy, necesitarás en ese futuro:
         </p>
         <ul style={{ marginTop: "8px", marginLeft: "20px" }}>
           <li>
             Un ingreso mensual futuro de{" "}
-            <strong>${formatNumber(futureSalary)} pesos</strong> (ajustado por inflación).
+            <strong>${formatNumber(futureSalary)} pesos</strong> (ajustado por inflación) ya que las cosas costarán más.
           </li>
           <li>
             Un capital requerido de aproximadamente{" "}
-            <strong>${formatNumber(requiredCapital)} pesos</strong>.
+            <strong>${formatNumber(requiredCapital)} pesos el cual te generará los ingresos mensuales</strong>.
           </li>
+          <li>
+              y contemplamos Gastos extras anuales de{" "}
+              <strong>${formatNumber(extraExpense)} pesos</strong>, para que puedas darte tus lujos los cuales serán cubiertos sin afectar tu meta.
+            </li>
         </ul>
         <p style={{ marginTop: "16px" }}>
-          Y desde hoy, para poder lograrlo, deberás invertir{" "}
+          Por lo tanto desde hoy, para poder lograrlo, deberás invertir{" "}
           <strong>${formatNumber(monthlyInvestment)} pesos mensuales</strong> con un rendimiento anual de al menos{" "}
           <strong>20%</strong>.
         </p>
