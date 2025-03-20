@@ -280,7 +280,7 @@ const RetirementPlanCalculator = () => {
             onChange={(e) => setCustomExtraExpense(parseInt(e.target.value))}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
-          <label>Inversión actual</label>
+          <label>Inversión actual (sólo miembros lo nuestro)</label>
           <input
             type="number"
             value={customCurrentInvestment}
@@ -300,12 +300,12 @@ const RetirementPlanCalculator = () => {
       {plans.length > 0 && (
         <div ref={whatsappRef} style={{ marginTop: "24px", textAlign: "center" }}>
           <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-            ¿Quisieras que te digamos cómo lograrlo? Muchas personas se están asociando en la cooperativa{" "}
-            <strong>"Lo Nuestro"</strong> para alcanzar sus metas de retiro. ¡Mándanos un mensaje y te decimos los siguientes pasos! Cabe mencionar que no cuesta nada.
+            No es tan difícil lograrlo continua para presentarte {" "}
+            <strong>"Lo Nuestro"</strong> y logres alcanzar sus metas. ¡Mándanos un mensaje y te decimos los siguientes pasos! Cabe mencionar que no cuesta nada.
           </p>
           <a
             href={`https://wa.me/522481146831?text=${encodeURIComponent(
-              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+              `Hola, quiero saber más sobre cómo lograr mi plan. Aquí están los detalles:\n\n` +
               `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
               `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
               `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
