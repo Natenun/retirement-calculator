@@ -31,43 +31,62 @@ const RetirementPlanCalculator = () => {
   };
 
   // Función para generar el párrafo descriptivo del plan
-  const generatePlanDescription = (plan) => {
-    const {
-      retirementAge,
-      desiredIncome,
-      extraExpense,
-      currentInvestment,
-      futureSalary,
-      requiredCapital,
-      monthlyInvestment,
-    } = plan;
+ const generatePlanDescription = (plan) => {
+  const {
+    retirementAge,
+    desiredIncome,
+    extraExpense,
+    currentInvestment,
+    futureSalary,
+    requiredCapital,
+    monthlyInvestment,
+  } = plan;
 
-    let description = `Para poder retirarte a los ${retirementAge} años, `;
-
-    // Explicación del ingreso mensual deseado
-    description += `necesitarás $${formatNumber(futureSalary)} pesos para mantener el nivel adquisitivo de $${formatNumber(desiredIncome)} pesos hoy. `;
-
-    // Explicación de la inversión actual (si es mayor que 0)
-    if (currentInvestment > 0) {
-      description += `Con tu inversión actual de $${formatNumber(currentInvestment)} pesos, `;
-    }
-
-    // Explicación de las inversiones mensuales
-    description += `deberás invertir $${formatNumber(monthlyInvestment)} pesos mensuales desde hoy, `;
-
-    // Explicación del gasto extra cada año (si es mayor que 0)
-    if (extraExpense > 0) {
-      description += `considerando un gasto extra de $${formatNumber(extraExpense)} pesos cada año ajustado por inflación, `;
-    }
-
-    // Explicación del capital requerido
-    description += `para alcanzar un capital requerido de aproximadamente $${formatNumber(requiredCapital)} pesos. `;
-
-    // Explicación del rendimiento y la oportunidad
-    description += `Este cálculo asume un rendimiento anual del 20%, el cual puedes lograr gracias a las oportunidades de inversión que ofrece la cooperativa "Lo Nuestro".`;
-
-    return description;
-  };
+  return (
+    <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
+      <p>
+        Para poder retirarte a los <strong>{retirementAge} años</strong> con un ingreso mensual que te alcance para{" "}
+        <strong>${formatNumber(desiredIncome)} pesos</strong> de productos a precio de hoy, necesitarás en ese futuro:
+      </p>
+      <ul style={{ marginTop: "8px", marginLeft: "20px" }}>
+        <li>
+          Un ingreso mensual futuro de{" "}
+          <strong>${formatNumber(futureSalary)} pesos</strong> (ajustado por inflación).
+        </li>
+        <li>
+          Un capital requerido de aproximadamente{" "}
+          <strong>${formatNumber(requiredCapital)} pesos</strong>.
+        </li>
+      </ul>
+      <p style={{ marginTop: "16px" }}>
+        Y desde hoy, para poder lograrlo, deberás invertir{" "}
+        <strong>${formatNumber(monthlyInvestment)} pesos mensuales</strong> con un rendimiento anual de al menos{" "}
+        <strong>20%</strong>.
+      </p>
+      <p style={{ marginTop: "16px", fontStyle: "italic" }}>
+        ¿Quisieras que te digamos cómo lograrlo? Muchas personas se están asociando en la cooperativa{" "}
+        <strong>"Lo Nuestro"</strong> para alcanzar sus metas de retiro. ¡Mándanos un mensaje y te decimos los siguientes pasos! Cabe mencionar que no cuesta nada.
+      </p>
+      <a
+        href="https://wa.me/522481146831?text=Hola,%20quiero%20saber%20más%20sobre%20cómo%20lograr%20mi%20plan%20de%20retiro"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: "inline-block",
+          marginTop: "16px",
+          padding: "12px 24px",
+          background: "#25D366",
+          color: "white",
+          borderRadius: "4px",
+          textDecoration: "none",
+          fontWeight: "bold",
+        }}
+      >
+        Contáctanos por WhatsApp
+      </a>
+    </div>
+  );
+};
 
   const validateInputs = (actualRetirementAge, actualAge) => {
     if (actualRetirementAge <= actualAge) {
