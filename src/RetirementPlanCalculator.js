@@ -278,13 +278,11 @@ const RetirementPlanCalculator = () => {
           </p>
           <a
             href={`https://wa.me/522481146831?text=${encodeURIComponent(
-              plans.length > 0
-                ? `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-                  `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-                  `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-                  `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-                  `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
-                : "Hola, quiero saber más sobre cómo lograr mi plan de retiro."
+              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
+              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
+              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
+              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
             )}`}
             style={{ background: "#25D366", color: "white", padding: "8px", borderRadius: "4px", textDecoration: "none", display: "inline-block", marginTop: "16px" }}
           >
