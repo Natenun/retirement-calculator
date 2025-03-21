@@ -103,6 +103,19 @@ const RetirementPlanCalculator = () => {
         <strong>🔄 Entre más pronto empieces, más sencillo será.</strong>
       </p>
 
+      {/* Gráfica */}
+      <div style={{ marginTop: "24px" }}>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={plan.projection}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="year" />
+            <YAxis tickFormatter={formatYAxis} /> {/* Formatear eje Y */}
+            <Tooltip formatter={(value) => `$${formatNumber(value)}`} />
+            <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
       {/* Nuevo cierre */}
       <div style={{ marginTop: "24px", background: "#f9f9f9", padding: "16px", borderRadius: "8px", border: "1px solid #e0e0e0" }}>
         <p style={{ fontSize: "18px", fontWeight: "600", marginBottom: "12px" }}>
