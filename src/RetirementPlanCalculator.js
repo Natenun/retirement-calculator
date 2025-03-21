@@ -350,5 +350,13 @@ const RetirementPlanCalculator = () => {
               width: "50px",
               height: "50px",
             }}
-          >
-            <span style={{ fontSize:
+          >           
+               <span style={{ fontSize: "14px", fontWeight: "bold" }}>→</span>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default RetirementPlanCalculator;
