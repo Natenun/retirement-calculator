@@ -44,48 +44,86 @@ const RetirementPlanCalculator = () => {
     return value; // Dejar valores pequeños como están
   };
 
-  // Función para generar el párrafo descriptivo del plan
   const generatePlanDescription = (plan) => {
-    const {
-      retirementAge,
-      desiredIncome,
-      extraExpense,
-      currentInvestment,
-      futureSalary,
-      requiredCapital,
-      monthlyInvestment,
-    } = plan;
+  const {
+    retirementAge,
+    desiredIncome,
+    extraExpense,
+    currentInvestment,
+    futureSalary,
+    requiredCapital,
+    monthlyInvestment,
+  } = plan;
 
-    return (
-      <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
+  return (
+    <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
+      <p>
+        <strong>💸 ¿Cuánto necesitas invertir desde hoy?</strong>
+      </p>
+      <p>
+        Para alcanzar tu meta, solo necesitas invertir{" "}
+        <strong>${formatNumber(monthlyInvestment)} pesos al mes</strong> desde ahora.
+      </p>
+      <p>
+        Con eso, podrías tener un ingreso de{" "}
+        <strong>${formatNumber(desiredIncome)} pesos mensuales (en valor de hoy)</strong> cuando llegues a los{" "}
+        <strong>{retirementAge} años</strong>.
+      </p>
+
+      {extraExpense > 0 && (
         <p>
-          Para poder retirarte a los <strong>{retirementAge} años</strong> con un ingreso mensual que te alcance para{" "}
-          <strong>${formatNumber(desiredIncome)} pesos</strong> de productos a precio de hoy, necesitarás en ese futuro:
+          Además, estamos considerando un gasto adicional cada año de{" "}
+          <strong>${formatNumber(extraExpense)} pesos</strong>, que irá subiendo con el tiempo (porque todo sube, ¿verdad?). Pero no te preocupes, ¡ya está incluido en el plan!
         </p>
-        <ul style={{ marginTop: "8px", marginLeft: "20px" }}>
-          <li>
-            Un ingreso mensual futuro de{" "}
-            <strong>${formatNumber(futureSalary)} pesos</strong> (ajustado por inflación).
-          </li>
-          <li>
-            Un capital requerido de aproximadamente{" "}
-            <strong>${formatNumber(requiredCapital)} pesos</strong>.
-          </li>
-          {extraExpense > 0 && ( // Mostrar solo si hay gastos extras
-            <li>
-              Gastos extras anuales de{" "}
-              <strong>${formatNumber(extraExpense)} pesos</strong>, los cuales serán cubiertos sin afectar tu meta.
-            </li>
-          )}
+      )}
+
+      {currentInvestment > 0 && (
+        <p>
+          <strong>👉 Este plan ya considera que empiezas con una inversión inicial de{" "}
+          ${formatNumber(currentInvestment)} pesos.</strong>
+          Eso le da un buen impulso a tu ahorro desde el principio y te ayuda a alcanzar tu meta más rápido y con menos esfuerzo mes a mes.
+        </p>
+      )}
+
+      <p style={{ marginTop: "16px" }}>
+        <strong>🧾 ¿Qué significa esto?</strong>
+      </p>
+      <p>
+        Tu ahorro crecería hasta formar un fondo de alrededor de{" "}
+        <strong>${formatNumber(requiredCapital)} pesos</strong>.
+      </p>
+      <p>
+        Con eso podrías vivir tranquilo/a, cubrir tus gastos, y no preocuparte por la subida de precios en el futuro.
+      </p>
+
+      <p style={{ marginTop: "16px" }}>
+        <strong>💡 Ya hicimos todas las cuentas por ti.</strong> Solo necesitas dar el primer paso.
+      </p>
+      <p>
+        <strong>🔄 Entre más pronto empieces, más sencillo será.</strong>
+      </p>
+
+      {/* Nuevo cierre */}
+      <div style={{ marginTop: "24px", background: "#f9f9f9", padding: "16px", borderRadius: "8px", border: "1px solid #e0e0e0" }}>
+        <p style={{ fontSize: "18px", fontWeight: "600", marginBottom: "12px" }}>
+          <strong>📊 Tu plan, a tu manera</strong>
+        </p>
+        <p style={{ marginBottom: "12px" }}>
+          ¿Te gustaría probar otras combinaciones? Puedes cambiar lo que necesites:
+        </p>
+        <ul style={{ marginLeft: "20px", marginBottom: "12px" }}>
+          <li>✅ Retirarte antes o después...</li>
+          <li>✅ Quisieras tener mejores ingresos</li>
+          <li>✅ ¿Ya cuentas con inversión en <strong>Lo Nuestro</strong>?</li>
+          <li>✅ Dinero extra para disfrutar la vida desde ¡ya! Como para vacaciones anuales o gastos en caprichos (nuevo celular, comidas en restaurantes, etc.).</li>
         </ul>
-        <p style={{ marginTop: "16px" }}>
-          Y desde hoy, para poder lograrlo, deberás invertir{" "}
-          <strong>${formatNumber(monthlyInvestment)} pesos mensuales</strong> con un rendimiento anual de al menos{" "}
-          <strong>20%</strong>.
+        <p>
+          Ve cómo se transforma tu futuro con solo mover algunos datos.
         </p>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
   const validateInputs = (actualRetirementAge, actualAge) => {
     if (actualRetirementAge <= actualAge) {
@@ -204,12 +242,12 @@ const RetirementPlanCalculator = () => {
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
       <div style={{ background: "white", borderRadius: "8px", padding: "16px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-        <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}>Calculadora de Plan de Retiro</h2>
+        <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}>Vamos paso a paso hacia una vida financiera más clara.</h2>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div style={{ marginBottom: "16px" }}>
           <p style={{ fontSize: "16px", color: "#333" }}>
-            Para generar tu plan de retiro, primero necesitamos saber tu <strong>edad actual</strong>.
-            Esto nos ayudará a calcular cuánto tiempo tienes para ahorrar antes de retirarte.
+            Empecemos por lo básico: <strong>¿cuántos años tienes? </strong>.
+            Con eso podemos ayudarte a trazar un plan financiero que se adapte a tu vida.
           </p>
         </div>
         <label style={{ display: "block", fontSize: "14px", marginBottom: "8px" }}>Tu edad</label>
@@ -231,7 +269,7 @@ const RetirementPlanCalculator = () => {
 
       {plans.length > 0 && (
         <div ref={planRef} style={{ marginTop: "24px" }}>
-          <h3 style={{ fontSize: "20px", fontWeight: "600" }}>Detalles del Plan</h3>
+          <h3 style={{ fontSize: "20px", fontWeight: "600" }}>¿Cuánto necesitas invertir desde hoy?</h3>
           {generatePlanDescription(plans[currentPlanIndex])}
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={plans[currentPlanIndex].projection}>
@@ -304,25 +342,51 @@ const RetirementPlanCalculator = () => {
 
       {/* Sección de WhatsApp */}
       {plans.length > 0 && (
-        <div ref={whatsappRef} style={{ marginTop: "24px", textAlign: "center" }}>
-          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-            ¿Quisieras que te digamos cómo lograrlo? Muchas personas se están asociando en la cooperativa{" "}
-            <strong>"Lo Nuestro"</strong> para alcanzar sus metas de retiro. ¡Mándanos un mensaje y te decimos los siguientes pasos! Cabe mencionar que no cuesta nada.
-          </p>
-          <a
-            href={`https://wa.me/522481146831?text=${encodeURIComponent(
-              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
-            )}`}
-            style={{ background: "#25D366", color: "white", padding: "8px", borderRadius: "4px", textDecoration: "none", display: "inline-block", marginTop: "16px" }}
-          >
-            Enviar mensaje por WhatsApp
-          </a>
-        </div>
-      )}
+  <div ref={whatsappRef} style={{ marginTop: "24px", textAlign: "center" }}>
+    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+      <strong>🌟 Ya nos imaginamos ese futuro ... ahora toca hacerlo real.</strong>
+    </p>
+    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+      Hay dos cosas que suelen hacer difícil alcanzar estas metas:
+    </p>
+    <ul style={{ textAlign: "left", marginLeft: "20px", marginBottom: "16px" }}>
+      <li>Conseguir rendimientos altos, como ese 20% anual.</li>
+      <li>Y más común aún: ir solos por la vida, sin unirnos con otras personas para crecer juntos.</li>
+    </ul>
+    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+      Pero la buena noticia es que ya encontramos cómo hacerlo más fácil.
+      En la cooperativa <strong>“Lo Nuestro”</strong>, muchas personas como tú ya se están juntando para lograr sus metas, apoyándose y aprovechando lo que pueden lograr en equipo.
+    </p>
+    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+      ¿Te gustaría sumarte? Mándanos un mensajito y te contamos cómo empezar.
+    </p>
+    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+      <strong>✨ No cuesta nada, pero puede hacer toda la diferencia.</strong>
+    </p>
+    <a
+      href={`https://wa.me/522481146831?text=${encodeURIComponent(
+        `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+        `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
+        `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
+        `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
+        `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
+      )}`}
+      style={{
+        background: "#25D366",
+        color: "white",
+        padding: "12px 24px",
+        borderRadius: "8px",
+        textDecoration: "none",
+        display: "inline-block",
+        marginTop: "16px",
+        fontSize: "16px",
+        fontWeight: "500",
+      }}
+    >
+      Enviar mensaje por WhatsApp
+    </a>
+  </div>
+)}
 
       {/* Botón circular "Continuar" */}
       {plans.length > 0 && (
