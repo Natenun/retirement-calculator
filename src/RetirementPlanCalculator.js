@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const RetirementPlanCalculator = () => {
@@ -8,7 +8,11 @@ const RetirementPlanCalculator = () => {
   const [extraExpense] = useState(0); // Eliminado setExtraExpense
   const [currentInvestment] = useState(0); // Eliminado setCurrentInvestment
 
-  const [customRetirementAge, setCustomRetirementAge] = useState(retirementAge);
+  // Inicializar customRetirementAge basado en la edad del usuario
+  const [customRetirementAge, setCustomRetirementAge] = useState(
+    age >= 60 ? age + 5 : retirementAge
+  );
+
   const [customDesiredIncome, setCustomDesiredIncome] = useState(desiredIncome);
   const [customExtraExpense, setCustomExtraExpense] = useState(extraExpense);
   const [customCurrentInvestment, setCustomCurrentInvestment] = useState(currentInvestment);
@@ -24,6 +28,15 @@ const RetirementPlanCalculator = () => {
   // Referencias para desplazamiento
   const planRef = useRef(null);
   const whatsappRef = useRef(null);
+
+  // Efecto para actualizar customRetirementAge cuando la edad cambia
+  useEffect(() => {
+    if (age >= 60) {
+      setCustomRetirementAge(age + 5);
+    } else {
+      setCustomRetirementAge(retirementAge);
+    }
+  }, [age]);
 
   // Función para formatear cantidades con comas
   const formatNumber = (number) => {
@@ -393,7 +406,7 @@ const RetirementPlanCalculator = () => {
               fontWeight: "500",
             }}
           >
-            Enviar mensaje por WhatsApp
+            Ayúdame a comenzar
           </a>
         </div>
       )}
