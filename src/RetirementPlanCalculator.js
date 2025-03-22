@@ -89,10 +89,7 @@ const RetirementPlanCalculator = () => {
           Tu dinero crecería hasta formar un fondo de alrededor de{" "}
           <strong>${formatNumber(requiredCapital)} pesos</strong>.
         </p>
-        <p>
-          Te gusta el plan? sigue en el circulo azul y mandanos mensaje para ayudarte a contunuar o si prefieres haz cambios a tu plan.
-        </p>
-
+        
         <p style={{ marginTop: "16px" }}>
           <strong>💡 Ya hicimos todas las cuentas por ti.</strong> Solo necesitas dar el primer paso.
         </p>
@@ -117,6 +114,9 @@ const RetirementPlanCalculator = () => {
         <div style={{ marginTop: "24px", background: "#f9f9f9", padding: "16px", borderRadius: "8px", border: "1px solid #e0e0e0" }}>
           <p style={{ fontSize: "18px", fontWeight: "600", marginBottom: "12px" }}>
             <strong>📊 Tu plan, a tu manera</strong>
+          </p>
+          <p style={{ marginBottom: "12px" }}>
+           Te gusta el plan? sigue en el circulo azul y mandanos mensaje para ayudarte a contunuar o.
           </p>
           <p style={{ marginBottom: "12px" }}>
             ¿Te gustaría probar otras combinaciones? Puedes cambiar lo que necesites:
