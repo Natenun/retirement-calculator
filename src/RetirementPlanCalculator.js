@@ -56,7 +56,6 @@ const RetirementPlanCalculator = () => {
 
     return (
       <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
-       
         <p>
           Para alcanzar tu meta, sólo necesitas invertir{" "}
           <strong>${formatNumber(monthlyInvestment)} pesos al mes</strong> desde ahora.
@@ -276,15 +275,16 @@ const RetirementPlanCalculator = () => {
 
       {plans.length > 0 && (
         <div ref={planRef} style={{ marginTop: "24px" }}>
-          <h3 style={{ fontSize: "20px", fontWeight: "600" }}>💸¿Cuánto necesitas invertir desde hoy?</h3>
-          {generatePlanDescription(plans[currentPlanIndex])}
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "16px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
             <button
               onClick={prevPlan}
               style={{ background: "#6b7280", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
             >
               Anterior
             </button>
+            <h3 style={{ fontSize: "20px", fontWeight: "600", margin: "0" }}>
+              {currentPlanIndex === 0 ? "Plan Estándar" : `Plan ${currentPlanIndex}`}
+            </h3>
             <button
               onClick={nextPlan}
               style={{ background: "#6b7280", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
@@ -292,6 +292,7 @@ const RetirementPlanCalculator = () => {
               Siguiente
             </button>
           </div>
+          {generatePlanDescription(plans[currentPlanIndex])}
         </div>
       )}
 
@@ -340,54 +341,55 @@ const RetirementPlanCalculator = () => {
 
       {/* Sección de WhatsApp */}
       {plans.length > 0 && (
-  <div ref={whatsappRef} style={{ marginTop: "24px", textAlign: "center" }}>
-    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-      <strong>🌟 Ya nos imaginamos ese futuro ... ahora toca hacerlo real.</strong>
-    </p>
-    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-      Hay dos cosas que suelen hacer difícil alcanzar estas metas:
-    </p>
-    <ul style={{ textAlign: "left", marginLeft: "20px", marginBottom: "16px" }}>
-      <li>Conseguir rendimientos altos, como ese 20% anual.</li>
-      <li>Y más común aún: ir solos por la vida, sin unirnos con otras personas para crecer juntos.</li>
-    </ul>
-    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-      Pero la buena noticia es que ya encontramos cómo hacerlo más fácil.
-      En la cooperativa <strong>“Lo Nuestro”</strong>, muchas personas como tú ya se están juntando para lograr sus metas, apoyándose y aprovechando lo que pueden lograr en equipo.
-    </p>
-    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-      ¿Te gustaría sumarte? Mándanos un mensajito y te contamos cómo empezar.
-    </p>
-    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-      <strong>✨ No cuesta nada, pero puede hacer toda la diferencia.</strong>
-    </p>
-    <a
-      href={`https://wa.me/522481146831?text=${encodeURIComponent(
-        `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-        `- Edad actual: ${plans[currentPlanIndex].age} años\n` + // Agregado: Edad actual
-        `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-        `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-        `- Gasto extra anual: $${formatNumber(plans[currentPlanIndex].extraExpense)} pesos\n` + // Agregado: Gasto extra anual
-        `- Inversión inicial: $${formatNumber(plans[currentPlanIndex].currentInvestment)} pesos\n` + // Agregado: Inversión inicial
-        `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-        `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
-      )}`}
-      style={{
-        background: "#25D366",
-        color: "white",
-        padding: "12px 24px",
-        borderRadius: "8px",
-        textDecoration: "none",
-        display: "inline-block",
-        marginTop: "16px",
-        fontSize: "16px",
-        fontWeight: "500",
-      }}
-    >
-      Enviar mensaje por WhatsApp
-    </a>
-  </div>
-)}
+        <div ref={whatsappRef} style={{ marginTop: "24px", textAlign: "center" }}>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            <strong>🌟 Ya nos imaginamos ese futuro ... ahora toca hacerlo real.</strong>
+          </p>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            Hay dos cosas que suelen hacer difícil alcanzar estas metas:
+          </p>
+          <ul style={{ textAlign: "left", marginLeft: "20px", marginBottom: "16px" }}>
+            <li>Conseguir rendimientos altos, como ese 20% anual.</li>
+            <li>Y además, vivimos en una cultura donde no se habla de finanzas, ni se promueve la idea de crecer en colectivo.</li>
+          </ul>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            Sabemos que hacerlo solo es complicado.
+            Por eso nació <strong>“Lo Nuestro”</strong>, una comunidad donde unimos fuerzas, sumamos talentos y logramos lo que, por separado, tomaría mucho más tiempo.
+          </p>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            ¿Te gustaría sumarte? Mándanos un mensajito y te contamos cómo empezar.
+          </p>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            <strong>✨ No cuesta nada, pero puede hacer toda la diferencia.</strong>
+          </p>
+          <a
+            href={`https://wa.me/522481146831?text=${encodeURIComponent(
+              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+              `- Edad actual: ${plans[currentPlanIndex].age} años\n` + // Agregado: Edad actual
+              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
+              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
+              `- Gasto extra anual: $${formatNumber(plans[currentPlanIndex].extraExpense)} pesos\n` + // Agregado: Gasto extra anual
+              `- Inversión inicial: $${formatNumber(plans[currentPlanIndex].currentInvestment)} pesos\n` + // Agregado: Inversión inicial
+              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
+              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
+            )}`}
+            style={{
+              background: "#25D366",
+              color: "white",
+              padding: "12px 24px",
+              borderRadius: "8px",
+              textDecoration: "none",
+              display: "inline-block",
+              marginTop: "16px",
+              fontSize: "16px",
+              fontWeight: "500",
+            }}
+          >
+            Enviar mensaje por WhatsApp
+          </a>
+        </div>
+      )}
+
       {/* Botón circular "Continuar" */}
       {plans.length > 0 && (
         <div
