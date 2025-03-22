@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 const RetirementPlanCalculator = () => {
   const [age, setAge] = useState(43);
-  const [retirementAge] = useState(65); // Eliminado setRetirementAge
+  const [retirementAge] = useState(65); // Edad de retiro estándar
   const [desiredIncome] = useState(9000); // Eliminado setDesiredIncome
   const [extraExpense] = useState(0); // Eliminado setExtraExpense
   const [currentInvestment] = useState(0); // Eliminado setCurrentInvestment
@@ -142,7 +142,15 @@ const RetirementPlanCalculator = () => {
   };
 
   const calculatePlan = (custom = false) => {
-    const actualRetirementAge = custom ? customRetirementAge : retirementAge;
+    let actualRetirementAge;
+
+    // Si el usuario tiene 60 años o más, la edad de retiro será su edad + 5 años
+    if (age >= 60) {
+      actualRetirementAge = age + 5;
+    } else {
+      actualRetirementAge = custom ? customRetirementAge : retirementAge;
+    }
+
     const actualAge = age;
 
     if (!validateInputs(actualRetirementAge, actualAge)) {
