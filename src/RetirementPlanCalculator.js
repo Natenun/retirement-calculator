@@ -81,8 +81,8 @@ const RetirementPlanCalculator = () => {
 
         {extraExpense > 0 && (
           <p>
-            Además, estamos considerando un gasto adicional cada año de{" "}
-            <strong>${formatNumber(extraExpense)} pesos</strong>, que irá subiendo con el tiempo (porque todo sube, ¿verdad?). Pero no te preocupes, ¡ya está incluido en el plan!
+            Además, por que sabemos que la vida es para disfrutarla ya, estamos considerando un gasto adicional cada año de{" "}
+            <strong>${formatNumber(extraExpense)} pesos</strong> desde el primer año, que irá subiendo con el tiempo (porque todo sube, ¿verdad?). Pero no te preocupes, ¡ya está incluido en el plan!
           </p>
         )}
 
@@ -337,7 +337,7 @@ const RetirementPlanCalculator = () => {
             onChange={(e) => setCustomDesiredIncome(parseInt(e.target.value))}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
-          <label>Gasto extra cada año</label>
+          <label>Te gustaría consentirte desde ya cada año con algo?</label>
           <input
             type="number"
             value={customExtraExpense}
@@ -366,6 +366,32 @@ const RetirementPlanCalculator = () => {
           <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
             <strong>🌟 Ya nos imaginamos ese futuro ... ahora toca hacerlo real.</strong>
           </p>
+          <a
+            href={`https://wa.me/522481146831?text=${encodeURIComponent(
+              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+              `- Edad actual: ${plans[currentPlanIndex].age} años\n` + // Agregado: Edad actual
+              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
+              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
+              `- Gasto extra anual: $${formatNumber(plans[currentPlanIndex].extraExpense)} pesos\n` + // Agregado: Gasto extra anual
+              `- Inversión inicial: $${formatNumber(plans[currentPlanIndex].currentInvestment)} pesos\n` + // Agregado: Inversión inicial
+              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
+              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
+            )}`}
+            style={{
+              background: "#25D366",
+              color: "white",
+              padding: "12px 24px",
+              borderRadius: "8px",
+              textDecoration: "none",
+              display: "inline-block",
+              marginTop: "16px",
+              fontSize: "16px",
+              fontWeight: "500",
+            }}
+          >
+            comencemos
+          </a>
+
           <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
             Hay dos cosas que suelen hacer difícil alcanzar estas metas:
           </p>
