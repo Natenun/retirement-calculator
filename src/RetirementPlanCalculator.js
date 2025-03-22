@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const RetirementPlanCalculator = () => {
@@ -45,98 +45,98 @@ const RetirementPlanCalculator = () => {
   };
 
   const generatePlanDescription = (plan) => {
-  const {
-    retirementAge,
-    desiredIncome,
-    extraExpense,
-    currentInvestment,
-    futureSalary,
-    requiredCapital,
-    monthlyInvestment,
-  } = plan;
+    const {
+      retirementAge,
+      desiredIncome,
+      extraExpense,
+      currentInvestment,
+      futureSalary,
+      requiredCapital,
+      monthlyInvestment,
+    } = plan;
 
-  return (
-    <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
-      <p>
-        <strong>💸 ¿Cuánto necesitas invertir desde hoy?</strong>
-      </p>
-      <p>
-        Para alcanzar tu meta, solo necesitas invertir{" "}
-        <strong>${formatNumber(monthlyInvestment)} pesos al mes</strong> desde ahora.
-      </p>
-      <p>
-        Con eso, podrías tener un ingreso de{" "}
-        <strong>${formatNumber(desiredIncome)} pesos mensuales (en valor de hoy)</strong> cuando llegues a los{" "}
-        <strong>{retirementAge} años</strong>.
-      </p>
-
-      {extraExpense > 0 && (
+    return (
+      <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
         <p>
-          Además, estamos considerando un gasto adicional cada año de{" "}
-          <strong>${formatNumber(extraExpense)} pesos</strong>, que irá subiendo con el tiempo (porque todo sube, ¿verdad?). Pero no te preocupes, ¡ya está incluido en el plan!
+          <strong>💸 ¿Cuánto necesitas invertir desde hoy?</strong>
         </p>
-      )}
-
-      {currentInvestment > 0 && (
         <p>
-          <strong>👉 Este plan ya considera que empiezas con una inversión inicial de{" "}
-          ${formatNumber(currentInvestment)} pesos.</strong>
-          Eso le da un buen impulso a tu ahorro desde el principio y te ayuda a alcanzar tu meta más rápido y con menos esfuerzo mes a mes.
+          Para alcanzar tu meta, solo necesitas invertir{" "}
+          <strong>${formatNumber(monthlyInvestment)} pesos al mes</strong> desde ahora.
         </p>
-      )}
+        <p>
+          Con eso, podrías tener un ingreso de{" "}
+          <strong>${formatNumber(desiredIncome)} pesos mensuales (en valor de hoy)</strong> cuando llegues a los{" "}
+          <strong>{retirementAge} años</strong>.
+        </p>
 
-      <p style={{ marginTop: "16px" }}>
-        <strong>🧾 ¿Qué significa esto?</strong>
-      </p>
-      <p>
-        Tu ahorro crecería hasta formar un fondo de alrededor de{" "}
-        <strong>${formatNumber(requiredCapital)} pesos</strong>.
-      </p>
-      <p>
-        Con eso podrías vivir tranquilo/a, cubrir tus gastos, y no preocuparte por la subida de precios en el futuro.
-      </p>
+        {extraExpense > 0 && (
+          <p>
+            Además, estamos considerando un gasto adicional cada año de{" "}
+            <strong>${formatNumber(extraExpense)} pesos</strong>, que irá subiendo con el tiempo (porque todo sube, ¿verdad?). Pero no te preocupes, ¡ya está incluido en el plan!
+          </p>
+        )}
 
-      <p style={{ marginTop: "16px" }}>
-        <strong>💡 Ya hicimos todas las cuentas por ti.</strong> Solo necesitas dar el primer paso.
-      </p>
-      <p>
-        <strong>🔄 Entre más pronto empieces, más sencillo será.</strong>
-      </p>
+        {currentInvestment > 0 && (
+          <p>
+            <strong>👉 Este plan ya considera que empiezas con una inversión inicial de{" "}
+            ${formatNumber(currentInvestment)} pesos.</strong>
+            Eso le da un buen impulso a tu ahorro desde el principio y te ayuda a alcanzar tu meta más rápido y con menos esfuerzo mes a mes.
+          </p>
+        )}
 
-      {/* Gráfica */}
-      <div style={{ marginTop: "24px" }}>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={plan.projection}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="year" />
-            <YAxis tickFormatter={formatYAxis} /> {/* Formatear eje Y */}
-            <Tooltip formatter={(value) => `$${formatNumber(value)}`} />
-            <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
-          </LineChart>
-        </ResponsiveContainer>
+        <p style={{ marginTop: "16px" }}>
+          <strong>🧾 ¿Qué significa esto?</strong>
+        </p>
+        <p>
+          Tu ahorro crecería hasta formar un fondo de alrededor de{" "}
+          <strong>${formatNumber(requiredCapital)} pesos</strong>.
+        </p>
+        <p>
+          Con eso podrías vivir tranquilo/a, cubrir tus gastos, y no preocuparte por la subida de precios en el futuro.
+        </p>
+
+        <p style={{ marginTop: "16px" }}>
+          <strong>💡 Ya hicimos todas las cuentas por ti.</strong> Solo necesitas dar el primer paso.
+        </p>
+        <p>
+          <strong>🔄 Entre más pronto empieces, más sencillo será.</strong>
+        </p>
+
+        {/* Gráfica */}
+        <div style={{ marginTop: "24px" }}>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={plan.projection}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="year" />
+              <YAxis tickFormatter={formatYAxis} /> {/* Formatear eje Y */}
+              <Tooltip formatter={(value) => `$${formatNumber(value)}`} />
+              <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Nuevo cierre */}
+        <div style={{ marginTop: "24px", background: "#f9f9f9", padding: "16px", borderRadius: "8px", border: "1px solid #e0e0e0" }}>
+          <p style={{ fontSize: "18px", fontWeight: "600", marginBottom: "12px" }}>
+            <strong>📊 Tu plan, a tu manera</strong>
+          </p>
+          <p style={{ marginBottom: "12px" }}>
+            ¿Te gustaría probar otras combinaciones? Puedes cambiar lo que necesites:
+          </p>
+          <ul style={{ marginLeft: "20px", marginBottom: "12px" }}>
+            <li>✅ Retirarte antes o después...</li>
+            <li>✅ Quisieras tener mejores ingresos</li>
+            <li>✅ ¿Ya cuentas con inversión en <strong>Lo Nuestro</strong>?</li>
+            <li>✅ Dinero extra para disfrutar la vida desde ¡ya! Como para vacaciones anuales o gastos en caprichos (nuevo celular, comidas en restaurantes, etc.).</li>
+          </ul>
+          <p>
+            Ve cómo se transforma tu futuro con solo mover algunos datos.
+          </p>
+        </div>
       </div>
-
-      {/* Nuevo cierre */}
-      <div style={{ marginTop: "24px", background: "#f9f9f9", padding: "16px", borderRadius: "8px", border: "1px solid #e0e0e0" }}>
-        <p style={{ fontSize: "18px", fontWeight: "600", marginBottom: "12px" }}>
-          <strong>📊 Tu plan, a tu manera</strong>
-        </p>
-        <p style={{ marginBottom: "12px" }}>
-          ¿Te gustaría probar otras combinaciones? Puedes cambiar lo que necesites:
-        </p>
-        <ul style={{ marginLeft: "20px", marginBottom: "12px" }}>
-          <li>✅ Retirarte antes o después...</li>
-          <li>✅ Quisieras tener mejores ingresos</li>
-          <li>✅ ¿Ya cuentas con inversión en <strong>Lo Nuestro</strong>?</li>
-          <li>✅ Dinero extra para disfrutar la vida desde ¡ya! Como para vacaciones anuales o gastos en caprichos (nuevo celular, comidas en restaurantes, etc.).</li>
-        </ul>
-        <p>
-          Ve cómo se transforma tu futuro con solo mover algunos datos.
-        </p>
-      </div>
-    </div>
-  );
-};
+    );
+  };
 
   const validateInputs = (actualRetirementAge, actualAge) => {
     if (actualRetirementAge <= actualAge) {
@@ -284,15 +284,6 @@ const RetirementPlanCalculator = () => {
         <div ref={planRef} style={{ marginTop: "24px" }}>
           <h3 style={{ fontSize: "20px", fontWeight: "600" }}>¿Cuánto necesitas invertir desde hoy?</h3>
           {generatePlanDescription(plans[currentPlanIndex])}
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={plans[currentPlanIndex].projection}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="year" />
-              <YAxis tickFormatter={formatYAxis} /> {/* Formatear eje Y */}
-              <Tooltip formatter={(value) => `$${formatNumber(value)}`} />
-              <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "16px" }}>
             <button
               onClick={prevPlan}
@@ -355,51 +346,51 @@ const RetirementPlanCalculator = () => {
 
       {/* Sección de WhatsApp */}
       {plans.length > 0 && (
-  <div ref={whatsappRef} style={{ marginTop: "24px", textAlign: "center" }}>
-    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-      <strong>🌟 Ya nos imaginamos ese futuro ... ahora toca hacerlo real.</strong>
-    </p>
-    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-      Hay dos cosas que suelen hacer difícil alcanzar estas metas:
-    </p>
-    <ul style={{ textAlign: "left", marginLeft: "20px", marginBottom: "16px" }}>
-      <li>Conseguir rendimientos altos, como ese 20% anual.</li>
-      <li>Y más común aún: ir solos por la vida, sin unirnos con otras personas para crecer juntos.</li>
-    </ul>
-    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-      Pero la buena noticia es que ya encontramos cómo hacerlo más fácil.
-      En la cooperativa <strong>“Lo Nuestro”</strong>, muchas personas como tú ya se están juntando para lograr sus metas, apoyándose y aprovechando lo que pueden lograr en equipo.
-    </p>
-    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-      ¿Te gustaría sumarte? Mándanos un mensajito y te contamos cómo empezar.
-    </p>
-    <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
-      <strong>✨ No cuesta nada, pero puede hacer toda la diferencia.</strong>
-    </p>
-    <a
-      href={`https://wa.me/522481146831?text=${encodeURIComponent(
-        `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-        `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-        `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-        `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-        `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
-      )}`}
-      style={{
-        background: "#25D366",
-        color: "white",
-        padding: "12px 24px",
-        borderRadius: "8px",
-        textDecoration: "none",
-        display: "inline-block",
-        marginTop: "16px",
-        fontSize: "16px",
-        fontWeight: "500",
-      }}
-    >
-      Enviar mensaje por WhatsApp
-    </a>
-  </div>
-)}
+        <div ref={whatsappRef} style={{ marginTop: "24px", textAlign: "center" }}>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            <strong>🌟 Ya nos imaginamos ese futuro ... ahora toca hacerlo real.</strong>
+          </p>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            Hay dos cosas que suelen hacer difícil alcanzar estas metas:
+          </p>
+          <ul style={{ textAlign: "left", marginLeft: "20px", marginBottom: "16px" }}>
+            <li>Conseguir rendimientos altos, como ese 20% anual.</li>
+            <li>Y más común aún: ir solos por la vida, sin unirnos con otras personas para crecer juntos.</li>
+          </ul>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            Pero la buena noticia es que ya encontramos cómo hacerlo más fácil.
+            En la cooperativa <strong>“Lo Nuestro”</strong>, muchas personas como tú ya se están juntando para lograr sus metas, apoyándose y aprovechando lo que pueden lograr en equipo.
+          </p>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            ¿Te gustaría sumarte? Mándanos un mensajito y te contamos cómo empezar.
+          </p>
+          <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
+            <strong>✨ No cuesta nada, pero puede hacer toda la diferencia.</strong>
+          </p>
+          <a
+            href={`https://wa.me/522481146831?text=${encodeURIComponent(
+              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
+              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
+              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
+              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
+            )}`}
+            style={{
+              background: "#25D366",
+              color: "white",
+              padding: "12px 24px",
+              borderRadius: "8px",
+              textDecoration: "none",
+              display: "inline-block",
+              marginTop: "16px",
+              fontSize: "16px",
+              fontWeight: "500",
+            }}
+          >
+            Enviar mensaje por WhatsApp
+          </a>
+        </div>
+      )}
 
       {/* Botón circular "Continuar" */}
       {plans.length > 0 && (
@@ -427,8 +418,8 @@ const RetirementPlanCalculator = () => {
               width: "50px",
               height: "50px",
             }}
-          >           
-               <span style={{ fontSize: "14px", fontWeight: "bold" }}>→</span>
+          >
+            <span style={{ fontSize: "14px", fontWeight: "bold" }}>→</span>
           </button>
         </div>
       )}
