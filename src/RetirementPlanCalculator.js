@@ -56,11 +56,9 @@ const RetirementPlanCalculator = () => {
 
     return (
       <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
+       
         <p>
-          <strong>💸 ¿Cuánto necesitas invertir desde hoy?</strong>
-        </p>
-        <p>
-          Para alcanzar tu meta, solo necesitas invertir{" "}
+          Para alcanzar tu meta, sólo necesitas invertir{" "}
           <strong>${formatNumber(monthlyInvestment)} pesos al mes</strong> desde ahora.
         </p>
         <p>
@@ -80,7 +78,7 @@ const RetirementPlanCalculator = () => {
           <p>
             <strong>👉 Este plan ya considera que empiezas con una inversión inicial de{" "}
             ${formatNumber(currentInvestment)} pesos.</strong>
-            Eso le da un buen impulso a tu ahorro desde el principio y te ayuda a alcanzar tu meta más rápido y con menos esfuerzo mes a mes.
+            Eso le da un buen impulso a tu dinero desde el principio y te ayuda a alcanzar tu meta más rápido y con menos esfuerzo mes a mes.
           </p>
         )}
 
@@ -88,11 +86,11 @@ const RetirementPlanCalculator = () => {
           <strong>🧾 ¿Qué significa esto?</strong>
         </p>
         <p>
-          Tu ahorro crecería hasta formar un fondo de alrededor de{" "}
+          Tu dinero crecería hasta formar un fondo de alrededor de{" "}
           <strong>${formatNumber(requiredCapital)} pesos</strong>.
         </p>
         <p>
-          Con eso podrías vivir tranquilo/a, cubrir tus gastos, y no preocuparte por la subida de precios en el futuro.
+          Te gusta el plan? sigue en el circulo azul y mandanos mensaje para ayudarte a contunuar o si prefieres haz cambios a tu plan.
         </p>
 
         <p style={{ marginTop: "16px" }}>
@@ -280,7 +278,7 @@ const RetirementPlanCalculator = () => {
 
       {plans.length > 0 && (
         <div ref={planRef} style={{ marginTop: "24px" }}>
-          <h3 style={{ fontSize: "20px", fontWeight: "600" }}>¿Cuánto necesitas invertir desde hoy?</h3>
+          <h3 style={{ fontSize: "20px", fontWeight: "600" }}>💸¿Cuánto necesitas invertir desde hoy?</h3>
           {generatePlanDescription(plans[currentPlanIndex])}
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: "16px" }}>
             <button
