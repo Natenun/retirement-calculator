@@ -91,11 +91,9 @@ const RetirementPlanCalculator = () => {
         </p>
         
         <p style={{ marginTop: "16px" }}>
-          <strong>💡 Ya hicimos todas las cuentas por ti.</strong> Solo necesitas dar el primer paso.
+          <strong>💡 💡 Ya calculamos todo por ti (inflación, rendimiento, etc).</strong>
         </p>
-        <p>
-          <strong>🔄 Entre más pronto empieces, más sencillo será.</strong>
-        </p>
+        
 
         {/* Gráfica */}
         <div style={{ marginTop: "24px" }}>
