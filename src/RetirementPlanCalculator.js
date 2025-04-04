@@ -4,7 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const RetirementPlanCalculator = () => {
   const [age, setAge] = useState(43);
   const [retirementAge] = useState(65); // Edad de retiro estándar
-  const [desiredIncome] = useState(9000); // Eliminado setDesiredIncome
+  const [desiredIncome] = useState(11000); // Eliminado setDesiredIncome
   const [extraExpense] = useState(0); // Eliminado setExtraExpense
   const [currentInvestment] = useState(0); // Eliminado setCurrentInvestment
 
