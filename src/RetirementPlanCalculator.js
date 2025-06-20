@@ -186,6 +186,16 @@ const RetirementPlanCalculator = () => {
     let accumulated = actualCurrentInvestment;
     const requiredCapital = (futureSalary * 12) / returnRate;
 
+    console.log("🏁 Verificando datos:");
+    console.log("Edad actual:", actualAge);
+    console.log("Edad de retiro:", actualRetirementAge);
+    console.log("Años para retiro:", yearsToRetirement);
+    console.log("Ingreso mensual en valor actual:", actualDesiredIncome);
+    console.log("Ingreso mensual ajustado a futuro (futureSalary):", futureSalary);
+    console.log("Capital requerido:", requiredCapital);
+    console.log("Inversión inicial:", actualCurrentInvestment);
+
+
     // ✅ Simula solo el crecimiento del capital inicial, sin aportaciones ni gastos
     const simulateOnlyInitialInvestment = (initial, months, rate) => {
       let result = initial;
@@ -210,9 +220,15 @@ const RetirementPlanCalculator = () => {
 
     // ✅ Verificar si la inversión inicial por sí sola alcanza
     const accumulatedOnlyWithInitial = simulateOnlyInitialInvestment(actualCurrentInvestment, monthsToRetirement, r);
+    console.log("Resultado simulado solo con inversión inicial:", accumulatedOnlyWithInitial);
 
     if (accumulatedOnlyWithInitial >= requiredCapital) {
+      console.log("✅ El sistema cree que la inversión inicial alcanza.");
       monthlyInvestment = 0;
+    } else {
+      console.log("❌ El sistema detecta que necesitas inversión mensual.");
+      // aquí sigue la búsqueda binaria como ya la tienes
+
     } else {
       // Búsqueda binaria para encontrar aportación mensual necesaria
       let low = 0;
@@ -314,7 +330,7 @@ const RetirementPlanCalculator = () => {
           onClick={() => calculatePlan(false)}
           style={{ width: "100%", marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
         >
-          Generar Plan Estándarv1
+          Generar Plan Estándarv2
         </button>
       </div>
 
