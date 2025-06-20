@@ -417,7 +417,7 @@ const RetirementPlanCalculator = () => {
               `- Gasto extra anual: $${formatNumber(plans[currentPlanIndex].extraExpense)} pesos\n` +
               `- Inversión inicial: $${formatNumber(plans[currentPlanIndex].currentInvestment)} pesos\n` +
               `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
+              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos`
             )}`}
             style={{
               background: "#25D366",
@@ -431,8 +431,9 @@ const RetirementPlanCalculator = () => {
               fontWeight: "500",
             }}
           >
-            comencemos
+            Ayúdame a comenzar
           </a>
+
 
           <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
             Hay dos cosas que suelen hacer difícil alcanzar estas metas:
