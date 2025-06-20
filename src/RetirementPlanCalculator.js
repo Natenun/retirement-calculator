@@ -70,8 +70,10 @@ const RetirementPlanCalculator = () => {
     return (
       <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
         <p>
-          Para alcanzar tu meta, sólo necesitas invertir{" "}
-          <strong>${formatNumber(monthlyInvestment)} pesos al mes</strong> desde ahora.
+          Para alcanzar tu meta,{" "}
+          {monthlyInvestment == 0
+            ? "¡tu inversión inicial es suficiente! No necesitas invertir más cada mes."
+            : <>sólo necesitas invertir <strong>${formatNumber(monthlyInvestment)} pesos al mes</strong> desde ahora.</>}
         </p>
         <p>
           Con eso, podrías tener un ingreso de{" "}
@@ -182,6 +184,16 @@ const RetirementPlanCalculator = () => {
     let accumulated = actualCurrentInvestment;
     const requiredCapital = (futureSalary * 12) / returnRate;
 
+    // ✅ Simula solo el crecimiento del capital inicial, sin aportaciones ni gastos
+    const simulateOnlyInitialInvestment = (initial, months, rate) => {
+      let result = initial;
+      for (let i = 1; i <= months; i++) {
+        result *= 1 + rate;
+      }
+      return result;
+    };
+
+    // 🧠 Simulación completa mes a mes (con aportaciones y gastos si existen)
     const calculateAccumulated = (investment) => {
       accumulated = actualCurrentInvestment;
       for (let i = 1; i <= monthsToRetirement; i++) {
@@ -194,12 +206,13 @@ const RetirementPlanCalculator = () => {
       return accumulated;
     };
 
-    // Verificar si la inversión inicial es suficiente por sí sola
-    const accumulatedOnlyWithInitial = calculateAccumulated(0);
+    // ✅ Verificar si la inversión inicial por sí sola alcanza
+    const accumulatedOnlyWithInitial = simulateOnlyInitialInvestment(actualCurrentInvestment, monthsToRetirement, r);
+
     if (accumulatedOnlyWithInitial >= requiredCapital) {
       monthlyInvestment = 0;
     } else {
-      // Búsqueda binaria para calcular la inversión mensual necesaria
+      // Búsqueda binaria para encontrar aportación mensual necesaria
       let low = 0;
       let high = futureSalary * 100;
       let iterationCount = 0;
@@ -224,7 +237,7 @@ const RetirementPlanCalculator = () => {
       }
     }
 
-    // Construir proyección
+    // 🧮 Construcción de proyección gráfica
     let data = [];
     accumulated = actualCurrentInvestment;
     for (let i = 1; i <= monthsToRetirement; i++) {
@@ -262,6 +275,7 @@ const RetirementPlanCalculator = () => {
       planRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
 
 
   const nextPlan = () => setCurrentPlanIndex((index) => (index + 1) % plans.length);
