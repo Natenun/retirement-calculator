@@ -40,7 +40,9 @@ const RetirementPlanCalculator = () => {
     } else {
       setCustomRetirementAge(retirementAge);
     }
-  }, [age]);
+  }, [age, retirementAge]);
+
+
 
   // Efecto de animacion grafica
   useEffect(() => {
