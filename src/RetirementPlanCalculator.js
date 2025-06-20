@@ -198,12 +198,18 @@ const RetirementPlanCalculator = () => {
 
     // ✅ Simula solo el crecimiento del capital inicial, sin aportaciones ni gastos
     const simulateOnlyInitialInvestment = (initial, months, rate) => {
-      let result = initial;
+      let result = Number(initial);
       for (let i = 1; i <= months; i++) {
         result *= 1 + rate;
       }
+      console.log("🔍 Verificando cálculo interno del crecimiento sin aportaciones...");
+      console.log(`Inversión inicial: ${initial}`);
+      console.log(`Meses: ${months}`);
+      console.log(`Tasa mensual: ${rate}`);
+      console.log(`Resultado final: ${result}`);
       return result;
     };
+
 
     // 🧠 Simulación completa mes a mes (con aportaciones y gastos si existen)
     const calculateAccumulated = (investment) => {
@@ -329,7 +335,7 @@ const RetirementPlanCalculator = () => {
           onClick={() => calculatePlan(false)}
           style={{ width: "100%", marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
         >
-          Generar Plan Estándarv2
+          Generar Plan Estándar V3
         </button>
       </div>
 
