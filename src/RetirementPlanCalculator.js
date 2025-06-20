@@ -149,7 +149,7 @@ const RetirementPlanCalculator = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="year" />
               <YAxis tickFormatter={formatYAxis} /> {/* Formatear eje Y */}
-              <Tooltip formatter={(value) => $${formatNumber(value)}} />
+              <Tooltip formatter={(value) => `$${formatNumber(value)}`} />
               <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
