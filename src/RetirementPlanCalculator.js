@@ -298,7 +298,7 @@ const RetirementPlanCalculator = () => {
           onClick={() => calculatePlan(false)}
           style={{ width: "100%", marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
         >
-          Generar Plan Estándar
+          Generar Plan Estándar v.20250619
         </button>
       </div>
 
