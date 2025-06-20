@@ -4,7 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const RetirementPlanCalculator = () => {
   const [age, setAge] = useState(43);
   const [retirementAge] = useState(65); // Edad de retiro estándar
-  const [desiredIncome] = useState(120000); // Nuevo ingreso base para plan estándar
+  const [desiredIncome] = useState(60000); // Nuevo ingreso base para plan estándar
   //const [desiredIncome] = useState(11000); // Eliminado setDesiredIncome
   const [extraExpense] = useState(0); // Eliminado setExtraExpense
   const [currentInvestment] = useState(0); // Eliminado setCurrentInvestment
@@ -313,7 +313,7 @@ const RetirementPlanCalculator = () => {
           onClick={() => calculatePlan(false)}
           style={{ width: "100%", marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
         >
-          Generar Plan Estándar
+          Generar Plan Estándarv1
         </button>
       </div>
 
