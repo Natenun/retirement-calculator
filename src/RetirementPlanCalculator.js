@@ -307,6 +307,19 @@ const RetirementPlanCalculator = () => {
       whatsappRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+  // Construir mensaje y URL de WhatsApp fuera del JSX
+  const waMessage = encodeURIComponent(
+    `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
+    `- Edad actual: ${plans[currentPlanIndex]?.age} años\n` +
+    `- Edad de retiro: ${plans[currentPlanIndex]?.retirementAge} años\n` +
+    `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex]?.desiredIncome)} pesos\n` +
+    `- Gasto extra anual: $${formatNumber(plans[currentPlanIndex]?.extraExpense)} pesos\n` +
+    `- Inversión inicial: $${formatNumber(plans[currentPlanIndex]?.currentInvestment)} pesos\n` +
+    `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex]?.monthlyInvestment)} pesos\n` +
+    `- Capital requerido: $${formatNumber(plans[currentPlanIndex]?.requiredCapital)} pesos`
+  );
+
+  const waURL = `https://wa.me/522481146831?text=${waMessage}`;
 
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
@@ -409,16 +422,7 @@ const RetirementPlanCalculator = () => {
             <strong>🌟 Ya nos imaginamos ese futuro ... ahora toca hacerlo real.</strong>
           </p>
           <a
-            href={`https://wa.me/522481146831?text=${encodeURIComponent(
-              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-              `- Edad actual: ${plans[currentPlanIndex]?.age} años\n` +
-              `- Edad de retiro: ${plans[currentPlanIndex]?.retirementAge} años\n` +
-              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex]?.desiredIncome)} pesos\n` +
-              `- Gasto extra anual: $${formatNumber(plans[currentPlanIndex]?.extraExpense)} pesos\n` +
-              `- Inversión inicial: $${formatNumber(plans[currentPlanIndex]?.currentInvestment)} pesos\n` +
-              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex]?.monthlyInvestment)} pesos\n` +
-              `- Capital requerido: $${formatNumber(plans[currentPlanIndex]?.requiredCapital)} pesos`
-            )}`}
+            href={waURL}
             style={{
               background: "#25D366",
               color: "white",
@@ -433,6 +437,7 @@ const RetirementPlanCalculator = () => {
           >
             Ayúdame a comenzar
           </a>
+
           <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
             Hay dos cosas que suelen hacer difícil alcanzar estas metas:
           </p>
