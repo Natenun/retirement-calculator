@@ -229,7 +229,6 @@ const RetirementPlanCalculator = () => {
       console.log("❌ El sistema detecta que necesitas inversión mensual.");
       // aquí sigue la búsqueda binaria como ya la tienes
 
-    } else {
       // Búsqueda binaria para encontrar aportación mensual necesaria
       let low = 0;
       let high = futureSalary * 100;
