@@ -281,7 +281,7 @@ const RetirementPlanCalculator = () => {
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div style={{ marginBottom: "16px" }}>
           <p style={{ fontSize: "16px", color: "#333" }}>
-            Empecemos por lo básico: <strong>¿cuántos años tienes? </strong>.
+            Empecemos por lo básico: <strong>¿cuántos años tienesV? </strong>.
             Con eso podemos ayudarte a trazar un plan financiero que se adapte a tu vida.
           </p>
         </div>
