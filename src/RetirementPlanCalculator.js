@@ -80,9 +80,9 @@ const RetirementPlanCalculator = () => {
   // Función para formatear los valores del eje Y
   const formatYAxis = (value) => {
     if (value >= 1000000) {
-      return ${(value / 1000000).toFixed(1)}M; // Convertir a millones (ej: 8M)
+      return `${(value / 1000000).toFixed(1)}M`;// Convertir a millones (ej: 8M)
     } else if (value >= 1000) {
-      return ${(value / 1000).toFixed(0)}k; // Convertir a miles (ej: 700k)
+      return `${(value / 1000).toFixed(0)}k`; // Convertir a miles (ej: 700k)
     }
     return value; // Dejar valores pequeños como están
   };
