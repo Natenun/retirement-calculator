@@ -157,7 +157,6 @@ const RetirementPlanCalculator = () => {
   const calculatePlan = (custom = false) => {
     let actualRetirementAge;
 
-    // Si el usuario tiene 60 años o más, la edad de retiro será su edad + 5 años
     if (age >= 60) {
       actualRetirementAge = age + 5;
     } else {
@@ -177,12 +176,11 @@ const RetirementPlanCalculator = () => {
     const yearsToRetirement = actualRetirementAge - actualAge;
     const monthsToRetirement = yearsToRetirement * 12;
     const futureSalary = actualDesiredIncome * Math.pow(1 + inflationRate, yearsToRetirement);
-
     const r = returnRate / 12;
 
     let monthlyInvestment = 0;
     let accumulated = actualCurrentInvestment;
-    let requiredCapital = (futureSalary * 12) / returnRate;
+    const requiredCapital = (futureSalary * 12) / returnRate;
 
     const calculateAccumulated = (investment) => {
       accumulated = actualCurrentInvestment;
@@ -196,28 +194,37 @@ const RetirementPlanCalculator = () => {
       return accumulated;
     };
 
-    let low = 0;
-    let high = futureSalary * 100;
-    let iterationCount = 0;
-    const maxIterations = 1000;
+    // Verificar si la inversión inicial es suficiente por sí sola
+    const accumulatedOnlyWithInitial = calculateAccumulated(0);
+    if (accumulatedOnlyWithInitial >= requiredCapital) {
+      monthlyInvestment = 0;
+    } else {
+      // Búsqueda binaria para calcular la inversión mensual necesaria
+      let low = 0;
+      let high = futureSalary * 100;
+      let iterationCount = 0;
+      const maxIterations = 1000;
 
-    while (high - low > 0.01 && iterationCount < maxIterations) {
-      monthlyInvestment = (high + low) / 2;
-      accumulated = calculateAccumulated(monthlyInvestment);
+      while (high - low > 0.01 && iterationCount < maxIterations) {
+        monthlyInvestment = (high + low) / 2;
+        accumulated = calculateAccumulated(monthlyInvestment);
 
-      if (accumulated > requiredCapital) {
-        high = monthlyInvestment;
-      } else {
-        low = monthlyInvestment;
+        if (accumulated > requiredCapital) {
+          high = monthlyInvestment;
+        } else {
+          low = monthlyInvestment;
+        }
+        iterationCount++;
       }
-      iterationCount++;
+
+      const finalAccumulated = calculateAccumulated(monthlyInvestment);
+      if (finalAccumulated < requiredCapital - 1) {
+        setError("No se pudo alcanzar la meta con los parámetros actuales. Intenta ajustar tu meta, edad de retiro o tasa de rendimiento.");
+        return;
+      }
     }
 
-    if (iterationCount >= maxIterations) {
-      setError("No se pudo calcular la inversión mensual. Por favor, revisa los valores ingresados.");
-      return;
-    }
-
+    // Construir proyección
     let data = [];
     accumulated = actualCurrentInvestment;
     for (let i = 1; i <= monthsToRetirement; i++) {
@@ -245,16 +252,17 @@ const RetirementPlanCalculator = () => {
 
     setPlans((prevPlans) => {
       const updatedPlans = [...prevPlans, newPlan];
-      setCurrentPlanIndex(updatedPlans.length - 1); // Actualizar el índice del plan actual
+      setCurrentPlanIndex(updatedPlans.length - 1);
       return updatedPlans;
     });
+
     setShowCustomOptions(true);
 
-    // Desplazar la pantalla al contenedor del plan
     if (planRef.current) {
       planRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
 
   const nextPlan = () => setCurrentPlanIndex((index) => (index + 1) % plans.length);
   const prevPlan = () => setCurrentPlanIndex((index) => (index - 1 + plans.length) % plans.length);
