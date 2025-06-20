@@ -21,6 +21,10 @@ const RetirementPlanCalculator = () => {
   const [currentPlanIndex, setCurrentPlanIndex] = useState(0);
   const [showCustomOptions, setShowCustomOptions] = useState(false);
   const [error, setError] = useState("");
+  //animar la grafica en intervalos de 10 años
+  const [visibleProjection, setVisibleProjection] = useState([]);
+  const [animationIndex, setAnimationIndex] = useState(0);
+  const [animatedMessage, setAnimatedMessage] = useState("");
 
   const inflationRate = 0.04;
   const returnRate = 0.20;
@@ -38,6 +42,32 @@ const RetirementPlanCalculator = () => {
     }
   }, [age]);
 
+  // Efecto de animacion grafica
+  useEffect(() => {
+    if (plans.length === 0) return;
+    const currentPlan = plans[currentPlanIndex];
+    if (!currentPlan) return;
+
+    if (animationIndex >= currentPlan.projection.length) return;
+
+    const interval = setInterval(() => {
+      const nextData = currentPlan.projection.slice(0, animationIndex + 1);
+      setVisibleProjection(nextData);
+
+      const lastPoint = nextData[nextData.length - 1];
+      if (lastPoint) {
+        const formattedYear = Math.round(lastPoint.year);
+        const formattedCapital = formatNumber(lastPoint.capital);
+        setAnimatedMessage(`📈 En el año ${formattedYear} tendrás $${formattedCapital} pesos`);
+      }
+
+      setAnimationIndex((prev) => prev + 1);
+    }, 1000); // 1 segundo entre puntos
+
+    return () => clearInterval(interval);
+  }, [animationIndex, currentPlanIndex, plans]);
+
+
   // Función para formatear cantidades con comas
   const formatNumber = (number) => {
     const parsedNumber = parseFloat(number);
@@ -50,9 +80,9 @@ const RetirementPlanCalculator = () => {
   // Función para formatear los valores del eje Y
   const formatYAxis = (value) => {
     if (value >= 1000000) {
-      return `${(value / 1000000).toFixed(1)}M`; // Convertir a millones (ej: 8M)
+      return ${(value / 1000000).toFixed(1)}M; // Convertir a millones (ej: 8M)
     } else if (value >= 1000) {
-      return `${(value / 1000).toFixed(0)}k`; // Convertir a miles (ej: 700k)
+      return ${(value / 1000).toFixed(0)}k; // Convertir a miles (ej: 700k)
     }
     return value; // Dejar valores pequeños como están
   };
@@ -109,12 +139,17 @@ const RetirementPlanCalculator = () => {
 
         {/* Gráfica */}
         <div style={{ marginTop: "24px" }}>
+        {animatedMessage && (
+          <p style={{ fontSize: "18px", fontWeight: "500", color: "#444", marginBottom: "12px" }}>
+            {animatedMessage}
+          </p>
+        )}
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={plan.projection}>
+            <LineChart data={visibleProjection}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="year" />
               <YAxis tickFormatter={formatYAxis} /> {/* Formatear eje Y */}
-              <Tooltip formatter={(value) => `$${formatNumber(value)}`} />
+              <Tooltip formatter={(value) => $${formatNumber(value)}} />
               <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
@@ -245,9 +280,16 @@ const RetirementPlanCalculator = () => {
 
     setPlans((prevPlans) => {
       const updatedPlans = [...prevPlans, newPlan];
-      setCurrentPlanIndex(updatedPlans.length - 1); // Actualizar el índice del plan actual
+      setCurrentPlanIndex(updatedPlans.length - 1);
+
+      // Inicia la animación
+      setVisibleProjection([newPlan.projection[0]]);
+      setAnimationIndex(1);
+      setAnimatedMessage(`📈 En el año ${Math.round(newPlan.projection[0].year)} tendrás $${formatNumber(newPlan.projection[0].capital)} pesos`);
+
       return updatedPlans;
     });
+
     setShowCustomOptions(true);
 
     // Desplazar la pantalla al contenedor del plan
@@ -304,7 +346,7 @@ const RetirementPlanCalculator = () => {
               Anterior
             </button>
             <h3 style={{ fontSize: "20px", fontWeight: "600", margin: "0" }}>
-              {currentPlanIndex === 0 ? "Plan Estándar" : `Plan ${currentPlanIndex}`}
+              {currentPlanIndex === 0 ? "Plan Estándar" : Plan ${currentPlanIndex}}
             </h3>
             <button
               onClick={nextPlan}
@@ -367,16 +409,16 @@ const RetirementPlanCalculator = () => {
             <strong>🌟 Ya nos imaginamos ese futuro ... ahora toca hacerlo real.</strong>
           </p>
           <a
-            href={`https://wa.me/522481146831?text=${encodeURIComponent(
-              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-              `- Edad actual: ${plans[currentPlanIndex].age} años\n` + // Agregado: Edad actual
-              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-              `- Gasto extra anual: $${formatNumber(plans[currentPlanIndex].extraExpense)} pesos\n` + // Agregado: Gasto extra anual
-              `- Inversión inicial: $${formatNumber(plans[currentPlanIndex].currentInvestment)} pesos\n` + // Agregado: Inversión inicial
-              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
-            )}`}
+            href={https://wa.me/522481146831?text=${encodeURIComponent(
+              Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n +
+              - Edad actual: ${plans[currentPlanIndex].age} años\n + // Agregado: Edad actual
+              - Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n +
+              - Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n +
+              - Gasto extra anual: $${formatNumber(plans[currentPlanIndex].extraExpense)} pesos\n + // Agregado: Gasto extra anual
+              - Inversión inicial: $${formatNumber(plans[currentPlanIndex].currentInvestment)} pesos\n + // Agregado: Inversión inicial
+              - Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n +
+              - Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n
+            )}}
             style={{
               background: "#25D366",
               color: "white",
@@ -410,16 +452,16 @@ const RetirementPlanCalculator = () => {
             <strong>✨ No cuesta nada, pero puede hacer toda la diferencia.</strong>
           </p>
           <a
-            href={`https://wa.me/522481146831?text=${encodeURIComponent(
-              `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-              `- Edad actual: ${plans[currentPlanIndex].age} años\n` + // Agregado: Edad actual
-              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-              `- Gasto extra anual: $${formatNumber(plans[currentPlanIndex].extraExpense)} pesos\n` + // Agregado: Gasto extra anual
-              `- Inversión inicial: $${formatNumber(plans[currentPlanIndex].currentInvestment)} pesos\n` + // Agregado: Inversión inicial
-              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n`
-            )}`}
+            href={https://wa.me/522481146831?text=${encodeURIComponent(
+              Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n +
+              - Edad actual: ${plans[currentPlanIndex].age} años\n + // Agregado: Edad actual
+              - Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n +
+              - Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n +
+              - Gasto extra anual: $${formatNumber(plans[currentPlanIndex].extraExpense)} pesos\n + // Agregado: Gasto extra anual
+              - Inversión inicial: $${formatNumber(plans[currentPlanIndex].currentInvestment)} pesos\n + // Agregado: Inversión inicial
+              - Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n +
+              - Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n
+            )}}
             style={{
               background: "#25D366",
               color: "white",
