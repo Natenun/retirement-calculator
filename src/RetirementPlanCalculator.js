@@ -455,31 +455,7 @@ const RetirementPlanCalculator = () => {
           <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
             <strong>✨ No cuesta nada, pero puede hacer toda la diferencia.</strong>
           </p>
-          <a
-            href={https://wa.me/522481146831?text=${encodeURIComponent(
-              Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n +
-              - Edad actual: ${plans[currentPlanIndex].age} años\n + // Agregado: Edad actual
-              - Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n +
-              - Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n +
-              - Gasto extra anual: $${formatNumber(plans[currentPlanIndex].extraExpense)} pesos\n + // Agregado: Gasto extra anual
-              - Inversión inicial: $${formatNumber(plans[currentPlanIndex].currentInvestment)} pesos\n + // Agregado: Inversión inicial
-              - Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n +
-              - Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos\n
-            )}}
-            style={{
-              background: "#25D366",
-              color: "white",
-              padding: "12px 24px",
-              borderRadius: "8px",
-              textDecoration: "none",
-              display: "inline-block",
-              marginTop: "16px",
-              fontSize: "16px",
-              fontWeight: "500",
-            }}
-          >
-            Ayúdame a comenzar
-          </a>
+          
         </div>
       )}
 
