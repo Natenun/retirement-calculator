@@ -4,8 +4,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const RetirementPlanCalculator = () => {
   const [age, setAge] = useState(43);
   const [retirementAge] = useState(65); // Edad de retiro estándar
-  const [desiredIncome] = useState(60000); // Nuevo ingreso base para plan estándar
-  //const [desiredIncome] = useState(11000); // Eliminado setDesiredIncome
+  //const [desiredIncome] = useState(60000); // Nuevo ingreso base para plan estándar
+  const [desiredIncome] = useState(11000); // Eliminado setDesiredIncome
   const [extraExpense] = useState(0); // Eliminado setExtraExpense
   const [currentInvestment] = useState(0); // Eliminado setCurrentInvestment
 
@@ -171,10 +171,11 @@ const RetirementPlanCalculator = () => {
     if (!validateInputs(actualRetirementAge, actualAge)) {
       return;
     }
+    
+    const actualDesiredIncome = custom ? Number(customDesiredIncome) : desiredIncome;
+    const actualExtraExpense = custom ? Number(customExtraExpense) : extraExpense;
+    const actualCurrentInvestment = custom ? Number(customCurrentInvestment) : currentInvestment;
 
-    const actualDesiredIncome = custom ? customDesiredIncome : desiredIncome;
-    const actualExtraExpense = custom ? customExtraExpense : extraExpense;
-    const actualCurrentInvestment = custom ? customCurrentInvestment : currentInvestment;
 
     const yearsToRetirement = actualRetirementAge - actualAge;
     const monthsToRetirement = yearsToRetirement * 12;
@@ -347,31 +348,35 @@ const RetirementPlanCalculator = () => {
             ¿Quieres explorar diferentes escenarios? Ajusta los siguientes datos para ver cómo cambia tu plan de retiro:
           </p>
           <label>Edad de retiro</label>
+          <label>Edad de retiro</label>
           <input
             type="number"
             value={customRetirementAge}
-            onChange={(e) => setCustomRetirementAge(parseInt(e.target.value))}
+            onChange={(e) => setCustomRetirementAge(parseFloat(e.target.value) || 0)}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
+
           <label>Ingreso mensual deseado</label>
           <input
             type="number"
             value={customDesiredIncome}
-            onChange={(e) => setCustomDesiredIncome(parseInt(e.target.value))}
+            onChange={(e) => setCustomDesiredIncome(parseFloat(e.target.value) || 0)}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
-          <label>Te gustaría consentirte desde ya cada año con algo?</label>
+
+          <label>¿Te gustaría consentirte desde ya cada año con algo?</label>
           <input
             type="number"
             value={customExtraExpense}
-            onChange={(e) => setCustomExtraExpense(parseInt(e.target.value))}
+            onChange={(e) => setCustomExtraExpense(parseFloat(e.target.value) || 0)}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
+
           <label>Inversión actual</label>
           <input
             type="number"
             value={customCurrentInvestment}
-            onChange={(e) => setCustomCurrentInvestment(parseInt(e.target.value))}
+            onChange={(e) => setCustomCurrentInvestment(parseFloat(e.target.value) || 0)}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
           <button
