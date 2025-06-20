@@ -25,6 +25,8 @@ const RetirementPlanCalculator = () => {
   const [visibleProjection, setVisibleProjection] = useState([]);
   const [animationIndex, setAnimationIndex] = useState(0);
   const [animatedMessage, setAnimatedMessage] = useState("");
+  const [finalMessage, setFinalMessage] = useState("");
+
 
   const inflationRate = 0.04;
   const returnRate = 0.20;
@@ -55,6 +57,12 @@ const RetirementPlanCalculator = () => {
     const interval = setInterval(() => {
       const nextData = currentPlan.projection.slice(0, animationIndex + 1);
       setVisibleProjection(nextData);
+      if (animationIndex + 1 === currentPlan.projection.length) {
+        const last = nextData[nextData.length - 1];
+        if (last) {
+          setFinalMessage(`🎯 Meta alcanzada: tendrás $${formatNumber(last.capital)} en el año ${Math.round(last.year)}`);
+        }
+      }
 
       const lastPoint = nextData[nextData.length - 1];
       if (lastPoint) {
@@ -155,6 +163,12 @@ const RetirementPlanCalculator = () => {
               <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
+          {finalMessage && (
+            <p style={{ fontSize: "18px", fontWeight: "600", color: "#10b981", marginTop: "12px" }}>
+              {finalMessage}
+            </p>
+          )}
+
         </div>
 
         {/* Nuevo cierre */}
