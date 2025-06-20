@@ -346,7 +346,7 @@ const RetirementPlanCalculator = () => {
               Anterior
             </button>
             <h3 style={{ fontSize: "20px", fontWeight: "600", margin: "0" }}>
-              {currentPlanIndex === 0 ? "Plan Estándar" : Plan ${currentPlanIndex}}
+              {currentPlanIndex === 0 ? "Plan Estándar" : `Plan ${currentPlanIndex}`}
             </h3>
             <button
               onClick={nextPlan}
