@@ -21,11 +21,14 @@ const RetirementPlanCalculator = () => {
   const [currentPlanIndex, setCurrentPlanIndex] = useState(0);
   const [showCustomOptions, setShowCustomOptions] = useState(false);
   const [error, setError] = useState("");
+
   //animar la grafica en intervalos de 10 años
   const [visibleProjection, setVisibleProjection] = useState([]);
   const [animationIndex, setAnimationIndex] = useState(0);
   const [animatedMessage, setAnimatedMessage] = useState("");
   const [finalMessage, setFinalMessage] = useState("");
+  const [isPaused, setIsPaused] = useState(false);
+
 
 
   const inflationRate = 0.04;
@@ -51,31 +54,30 @@ const RetirementPlanCalculator = () => {
     if (plans.length === 0) return;
     const currentPlan = plans[currentPlanIndex];
     if (!currentPlan) return;
-
     if (animationIndex >= currentPlan.projection.length) return;
+    if (isPaused) return; // ⏸️ Detener animación si está en pausa
 
     const interval = setInterval(() => {
       const nextData = currentPlan.projection.slice(0, animationIndex + 1);
       setVisibleProjection(nextData);
-      if (animationIndex + 1 === currentPlan.projection.length) {
-        const last = nextData[nextData.length - 1];
-        if (last) {
-          setFinalMessage(`🎯 Meta alcanzada: tendrás $${formatNumber(last.capital)} en el año ${Math.round(last.year)}`);
-        }
-      }
 
       const lastPoint = nextData[nextData.length - 1];
       if (lastPoint) {
         const formattedYear = Math.round(lastPoint.year);
         const formattedCapital = formatNumber(lastPoint.capital);
         setAnimatedMessage(`📈 En el año ${formattedYear} tendrás $${formattedCapital} pesos`);
+
+        if (animationIndex + 1 === currentPlan.projection.length) {
+          setFinalMessage(`🎯 Meta alcanzada: tendrás $${formattedCapital} en el año ${formattedYear}`);
+        }
       }
 
       setAnimationIndex((prev) => prev + 1);
-    }, 1000); // 1 segundo entre puntos
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, [animationIndex, currentPlanIndex, plans]);
+  }, [animationIndex, isPaused, currentPlanIndex, plans]);
+
 
 
   // Función para formatear cantidades con comas
@@ -106,6 +108,15 @@ const RetirementPlanCalculator = () => {
       requiredCapital,
       monthlyInvestment,
     } = plan;
+    const btnStyle = {
+      padding: "8px 12px",
+      background: "#3b82f6",
+      color: "white",
+      border: "none",
+      borderRadius: "6px",
+      cursor: "pointer",
+      fontWeight: "bold"
+    };
 
     return (
       <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
@@ -163,6 +174,33 @@ const RetirementPlanCalculator = () => {
               <Line type="monotone" dataKey="capital" stroke="#8884d8" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
+          <div style={{ marginTop: "12px", display: "flex", gap: "12px", justifyContent: "center" }}>
+            <button onClick={() => setIsPaused(true)} style={btnStyle}>⏸️ Pausar</button>
+            <button onClick={() => setIsPaused(false)} style={btnStyle}>▶️ Reanudar</button>
+            <button
+              onClick={() => {
+                const newIndex = Math.max(1, animationIndex - 1);
+                const newData = plan.projection.slice(0, newIndex);
+                setAnimationIndex(newIndex);
+                setVisibleProjection(newData);
+              }}
+              style={btnStyle}
+            >
+              ⏮️ Atrás
+            </button>
+            <button
+              onClick={() => {
+                const newIndex = Math.min(plan.projection.length, animationIndex + 1);
+                const newData = plan.projection.slice(0, newIndex);
+                setAnimationIndex(newIndex);
+                setVisibleProjection(newData);
+              }}
+              style={btnStyle}
+            >
+              ⏭️ Adelante
+            </button>
+          </div>
+
           {finalMessage && (
             <p style={{ fontSize: "18px", fontWeight: "600", color: "#10b981", marginTop: "12px" }}>
               {finalMessage}
@@ -361,7 +399,7 @@ const RetirementPlanCalculator = () => {
           onClick={() => calculatePlan(false)}
           style={{ width: "100%", marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
         >
-          Generar Plan Estándar
+          Generar Plan Estándar v1
         </button>
       </div>
 
