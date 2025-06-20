@@ -4,7 +4,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const RetirementPlanCalculator = () => {
   const [age, setAge] = useState(43);
   const [retirementAge] = useState(65); // Edad de retiro estándar
-  //const [desiredIncome] = useState(60000); // Nuevo ingreso base para plan estándar
   const [desiredIncome] = useState(11000); // Eliminado setDesiredIncome
   const [extraExpense] = useState(0); // Eliminado setExtraExpense
   const [currentInvestment] = useState(0); // Eliminado setCurrentInvestment
@@ -71,10 +70,8 @@ const RetirementPlanCalculator = () => {
     return (
       <div style={{ fontSize: "16px", color: "#333", lineHeight: "1.6" }}>
         <p>
-          Para alcanzar tu meta,{" "}
-          {monthlyInvestment == 0
-            ? "¡tu inversión inicial es suficiente! No necesitas invertir más cada mes."
-            : <>sólo necesitas invertir <strong>${formatNumber(monthlyInvestment)} pesos al mes</strong> desde ahora.</>}
+          Para alcanzar tu meta, sólo necesitas invertir{" "}
+          <strong>${formatNumber(monthlyInvestment)} pesos al mes</strong> desde ahora.
         </p>
         <p>
           Con eso, podrías tener un ingreso de{" "}
@@ -160,6 +157,7 @@ const RetirementPlanCalculator = () => {
   const calculatePlan = (custom = false) => {
     let actualRetirementAge;
 
+    // Si el usuario tiene 60 años o más, la edad de retiro será su edad + 5 años
     if (age >= 60) {
       actualRetirementAge = age + 5;
     } else {
@@ -171,47 +169,21 @@ const RetirementPlanCalculator = () => {
     if (!validateInputs(actualRetirementAge, actualAge)) {
       return;
     }
-    
-    const actualDesiredIncome = custom ? Number(customDesiredIncome) : desiredIncome;
-    const actualExtraExpense = custom ? Number(customExtraExpense) : extraExpense;
-    const actualCurrentInvestment = custom ? Number(customCurrentInvestment) : currentInvestment;
 
+    const actualDesiredIncome = custom ? customDesiredIncome : desiredIncome;
+    const actualExtraExpense = custom ? customExtraExpense : extraExpense;
+    const actualCurrentInvestment = custom ? customCurrentInvestment : currentInvestment;
 
     const yearsToRetirement = actualRetirementAge - actualAge;
     const monthsToRetirement = yearsToRetirement * 12;
     const futureSalary = actualDesiredIncome * Math.pow(1 + inflationRate, yearsToRetirement);
+
     const r = returnRate / 12;
 
     let monthlyInvestment = 0;
     let accumulated = actualCurrentInvestment;
-    const requiredCapital = (futureSalary * 12) / returnRate;
+    let requiredCapital = (futureSalary * 12) / returnRate;
 
-    console.log("🏁 Verificando datos:");
-    console.log("Edad actual:", actualAge);
-    console.log("Edad de retiro:", actualRetirementAge);
-    console.log("Años para retiro:", yearsToRetirement);
-    console.log("Ingreso mensual en valor actual:", actualDesiredIncome);
-    console.log("Ingreso mensual ajustado a futuro (futureSalary):", futureSalary);
-    console.log("Capital requerido:", requiredCapital);
-    console.log("Inversión inicial:", actualCurrentInvestment);
-
-
-    // ✅ Simula solo el crecimiento del capital inicial, sin aportaciones ni gastos
-    const simulateOnlyInitialInvestment = (initial, months, rate) => {
-      let result = Number(initial);
-      for (let i = 1; i <= months; i++) {
-        result *= 1 + rate;
-      }
-      console.log("🔍 Verificando cálculo interno del crecimiento sin aportaciones...");
-      console.log(`Inversión inicial: ${initial}`);
-      console.log(`Meses: ${months}`);
-      console.log(`Tasa mensual: ${rate}`);
-      console.log(`Resultado final: ${result}`);
-      return result;
-    };
-
-
-    // 🧠 Simulación completa mes a mes (con aportaciones y gastos si existen)
     const calculateAccumulated = (investment) => {
       accumulated = actualCurrentInvestment;
       for (let i = 1; i <= monthsToRetirement; i++) {
@@ -224,43 +196,28 @@ const RetirementPlanCalculator = () => {
       return accumulated;
     };
 
-    // ✅ Verificar si la inversión inicial por sí sola alcanza
-    const accumulatedOnlyWithInitial = simulateOnlyInitialInvestment(actualCurrentInvestment, monthsToRetirement, r);
-    console.log("Resultado simulado solo con inversión inicial:", accumulatedOnlyWithInitial);
+    let low = 0;
+    let high = futureSalary * 100;
+    let iterationCount = 0;
+    const maxIterations = 1000;
 
-    if (accumulatedOnlyWithInitial >= requiredCapital) {
-      console.log("✅ El sistema cree que la inversión inicial alcanza.");
-      monthlyInvestment = 0;
-    } else {
-      console.log("❌ El sistema detecta que necesitas inversión mensual.");
-      // aquí sigue la búsqueda binaria como ya la tienes
+    while (high - low > 0.01 && iterationCount < maxIterations) {
+      monthlyInvestment = (high + low) / 2;
+      accumulated = calculateAccumulated(monthlyInvestment);
 
-      // Búsqueda binaria para encontrar aportación mensual necesaria
-      let low = 0;
-      let high = futureSalary * 100;
-      let iterationCount = 0;
-      const maxIterations = 1000;
-
-      while (high - low > 0.01 && iterationCount < maxIterations) {
-        monthlyInvestment = (high + low) / 2;
-        accumulated = calculateAccumulated(monthlyInvestment);
-
-        if (accumulated > requiredCapital) {
-          high = monthlyInvestment;
-        } else {
-          low = monthlyInvestment;
-        }
-        iterationCount++;
+      if (accumulated > requiredCapital) {
+        high = monthlyInvestment;
+      } else {
+        low = monthlyInvestment;
       }
-
-      const finalAccumulated = calculateAccumulated(monthlyInvestment);
-      if (finalAccumulated < requiredCapital - 1) {
-        setError("No se pudo alcanzar la meta con los parámetros actuales. Intenta ajustar tu meta, edad de retiro o tasa de rendimiento.");
-        return;
-      }
+      iterationCount++;
     }
 
-    // 🧮 Construcción de proyección gráfica
+    if (iterationCount >= maxIterations) {
+      setError("No se pudo calcular la inversión mensual. Por favor, revisa los valores ingresados.");
+      return;
+    }
+
     let data = [];
     accumulated = actualCurrentInvestment;
     for (let i = 1; i <= monthsToRetirement; i++) {
@@ -288,18 +245,16 @@ const RetirementPlanCalculator = () => {
 
     setPlans((prevPlans) => {
       const updatedPlans = [...prevPlans, newPlan];
-      setCurrentPlanIndex(updatedPlans.length - 1);
+      setCurrentPlanIndex(updatedPlans.length - 1); // Actualizar el índice del plan actual
       return updatedPlans;
     });
-
     setShowCustomOptions(true);
 
+    // Desplazar la pantalla al contenedor del plan
     if (planRef.current) {
       planRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
-
-
 
   const nextPlan = () => setCurrentPlanIndex((index) => (index + 1) % plans.length);
   const prevPlan = () => setCurrentPlanIndex((index) => (index - 1 + plans.length) % plans.length);
@@ -335,7 +290,7 @@ const RetirementPlanCalculator = () => {
           onClick={() => calculatePlan(false)}
           style={{ width: "100%", marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
         >
-          Generar Plan Estándar V3
+          Generar Plan Estándar
         </button>
       </div>
 
@@ -369,35 +324,31 @@ const RetirementPlanCalculator = () => {
             ¿Quieres explorar diferentes escenarios? Ajusta los siguientes datos para ver cómo cambia tu plan de retiro:
           </p>
           <label>Edad de retiro</label>
-          <label>Edad de retiro</label>
           <input
             type="number"
             value={customRetirementAge}
-            onChange={(e) => setCustomRetirementAge(parseFloat(e.target.value) || 0)}
+            onChange={(e) => setCustomRetirementAge(parseInt(e.target.value))}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
-
           <label>Ingreso mensual deseado</label>
           <input
             type="number"
             value={customDesiredIncome}
-            onChange={(e) => setCustomDesiredIncome(parseFloat(e.target.value) || 0)}
+            onChange={(e) => setCustomDesiredIncome(parseInt(e.target.value))}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
-
-          <label>¿Te gustaría consentirte desde ya cada año con algo?</label>
+          <label>Te gustaría consentirte desde ya cada año con algo?</label>
           <input
             type="number"
             value={customExtraExpense}
-            onChange={(e) => setCustomExtraExpense(parseFloat(e.target.value) || 0)}
+            onChange={(e) => setCustomExtraExpense(parseInt(e.target.value))}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
-
           <label>Inversión actual</label>
           <input
             type="number"
             value={customCurrentInvestment}
-            onChange={(e) => setCustomCurrentInvestment(parseFloat(e.target.value) || 0)}
+            onChange={(e) => setCustomCurrentInvestment(parseInt(e.target.value))}
             style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "16px" }}
           />
           <button
