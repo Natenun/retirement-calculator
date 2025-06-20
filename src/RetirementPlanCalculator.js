@@ -411,13 +411,13 @@ const RetirementPlanCalculator = () => {
           <a
             href={`https://wa.me/522481146831?text=${encodeURIComponent(
               `Hola, quiero saber más sobre cómo lograr mi plan de retiro. Aquí están los detalles de mi plan:\n\n` +
-              `- Edad actual: ${plans[currentPlanIndex].age} años\n` +
-              `- Edad de retiro: ${plans[currentPlanIndex].retirementAge} años\n` +
-              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex].desiredIncome)} pesos\n` +
-              `- Gasto extra anual: $${formatNumber(plans[currentPlanIndex].extraExpense)} pesos\n` +
-              `- Inversión inicial: $${formatNumber(plans[currentPlanIndex].currentInvestment)} pesos\n` +
-              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex].monthlyInvestment)} pesos\n` +
-              `- Capital requerido: $${formatNumber(plans[currentPlanIndex].requiredCapital)} pesos`
+              `- Edad actual: ${plans[currentPlanIndex]?.age} años\n` +
+              `- Edad de retiro: ${plans[currentPlanIndex]?.retirementAge} años\n` +
+              `- Ingreso mensual deseado: $${formatNumber(plans[currentPlanIndex]?.desiredIncome)} pesos\n` +
+              `- Gasto extra anual: $${formatNumber(plans[currentPlanIndex]?.extraExpense)} pesos\n` +
+              `- Inversión inicial: $${formatNumber(plans[currentPlanIndex]?.currentInvestment)} pesos\n` +
+              `- Inversión mensual necesaria: $${formatNumber(plans[currentPlanIndex]?.monthlyInvestment)} pesos\n` +
+              `- Capital requerido: $${formatNumber(plans[currentPlanIndex]?.requiredCapital)} pesos`
             )}`}
             style={{
               background: "#25D366",
