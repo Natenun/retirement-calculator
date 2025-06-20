@@ -433,8 +433,6 @@ const RetirementPlanCalculator = () => {
           >
             Ayúdame a comenzar
           </a>
-
-
           <p style={{ fontSize: "16px", color: "#333", lineHeight: "1.6", marginBottom: "16px" }}>
             Hay dos cosas que suelen hacer difícil alcanzar estas metas:
           </p>
