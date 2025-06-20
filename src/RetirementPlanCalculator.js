@@ -296,7 +296,7 @@ const RetirementPlanCalculator = () => {
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div style={{ marginBottom: "16px" }}>
           <p style={{ fontSize: "16px", color: "#333" }}>
-            Empecemos por lo básico: <strong>¿cuántos años tienesV? </strong>.
+            Empecemos por lo básico: <strong>¿cuántos años tienes? </strong>.
             Con eso podemos ayudarte a trazar un plan financiero que se adapte a tu vida.
           </p>
         </div>
@@ -313,7 +313,7 @@ const RetirementPlanCalculator = () => {
           onClick={() => calculatePlan(false)}
           style={{ width: "100%", marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
         >
-          Generar Plan Estándar v.20250619
+          Generar Plan Estándar
         </button>
       </div>
 
