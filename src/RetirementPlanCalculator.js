@@ -29,6 +29,14 @@ const RetirementPlanCalculator = () => {
   const [finalMessage, setFinalMessage] = useState("");
   const [isPaused, setIsPaused] = useState(false);
 
+  const updateAnimatedMessage = (projectionData, index) => {
+    const point = projectionData[index - 1]; // el último punto visible
+    if (point) {
+      const formattedYear = Math.round(point.year);
+      const formattedCapital = formatNumber(point.capital);
+      setAnimatedMessage(`📈 En el año ${formattedYear} tendrás $${formattedCapital} pesos`);
+    }
+  };
 
 
   const inflationRate = 0.04;
@@ -183,6 +191,7 @@ const RetirementPlanCalculator = () => {
                 const newData = plan.projection.slice(0, newIndex);
                 setAnimationIndex(newIndex);
                 setVisibleProjection(newData);
+                updateAnimatedMessage(newData, newIndex); // 👈 Se actualiza el mensaje aquí
               }}
               style={btnStyle}
             >
@@ -194,6 +203,7 @@ const RetirementPlanCalculator = () => {
                 const newData = plan.projection.slice(0, newIndex);
                 setAnimationIndex(newIndex);
                 setVisibleProjection(newData);
+                updateAnimatedMessage(newData, newIndex); // 👈 También aquí
               }}
               style={btnStyle}
             >
