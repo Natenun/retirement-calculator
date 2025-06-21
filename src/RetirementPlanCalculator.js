@@ -34,7 +34,7 @@ const RetirementPlanCalculator = () => {
     if (point) {
       const formattedYear = Math.round(point.year);
       const formattedCapital = formatNumber(point.capital);
-      setAnimatedMessage(`📈 En el año ${formattedYear} tendrás $${formattedCapital} pesos`);
+      setAnimatedMessage(`📈 Cuando tengas ${formattedYear} tendrás $${formattedCapital} pesos`);
     }
   };
 
@@ -428,7 +428,7 @@ const RetirementPlanCalculator = () => {
           onClick={() => calculatePlan(false)}
           style={{ width: "100%", marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
         >
-          Generar Plan Estándar v3
+          Generar Plan Estándar 
         </button>
       </div>
 
