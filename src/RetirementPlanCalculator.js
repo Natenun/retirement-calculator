@@ -188,10 +188,11 @@ const RetirementPlanCalculator = () => {
             <button
               onClick={() => {
                 const newIndex = Math.max(1, animationIndex - 1);
-                const newData = plan.projection.slice(0, newIndex);
+                const currentProjection = plans[currentPlanIndex]?.projection || [];
+                const newData = currentProjection.slice(0, newIndex);
                 setAnimationIndex(newIndex);
                 setVisibleProjection(newData);
-                updateAnimatedMessage(newData, newIndex); // 👈 Se actualiza el mensaje aquí
+                updateAnimatedMessage(newData, newIndex);
               }}
               style={btnStyle}
             >
@@ -199,11 +200,15 @@ const RetirementPlanCalculator = () => {
             </button>
             <button
               onClick={() => {
-                const newIndex = Math.min(plan.projection.length, animationIndex + 1);
-                const newData = plan.projection.slice(0, newIndex);
+                const newIndex = Math.min(
+                  plans[currentPlanIndex]?.projection?.length || 0,
+                  animationIndex + 1
+                );
+                const currentProjection = plans[currentPlanIndex]?.projection || [];
+                const newData = currentProjection.slice(0, newIndex);
                 setAnimationIndex(newIndex);
                 setVisibleProjection(newData);
-                updateAnimatedMessage(newData, newIndex); // 👈 También aquí
+                updateAnimatedMessage(newData, newIndex);
               }}
               style={btnStyle}
             >
@@ -409,7 +414,7 @@ const RetirementPlanCalculator = () => {
           onClick={() => calculatePlan(false)}
           style={{ width: "100%", marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
         >
-          Generar Plan Estándar v1
+          Generar Plan Estándar v2
         </button>
       </div>
 
