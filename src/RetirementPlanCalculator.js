@@ -85,6 +85,20 @@ const RetirementPlanCalculator = () => {
 
     return () => clearInterval(interval);
   }, [animationIndex, isPaused, currentPlanIndex, plans]);
+  // para actualizar graica cuando cambiamos de plan
+  useEffect(() => {
+    if (plans.length === 0) return;
+    const newPlan = plans[currentPlanIndex];
+    if (!newPlan) return;
+
+    const initialIndex = 1;
+    const initialData = newPlan.projection.slice(0, initialIndex);
+
+    setAnimationIndex(initialIndex);
+    setVisibleProjection(initialData);
+    updateAnimatedMessage(initialData, initialIndex);
+    setFinalMessage(""); // Reiniciar mensaje final
+  }, [currentPlanIndex]);
 
 
 
@@ -414,7 +428,7 @@ const RetirementPlanCalculator = () => {
           onClick={() => calculatePlan(false)}
           style={{ width: "100%", marginTop: "16px", background: "#3b82f6", color: "white", padding: "8px", borderRadius: "4px", border: "none", cursor: "pointer" }}
         >
-          Generar Plan Estándar v2
+          Generar Plan Estándar v3
         </button>
       </div>
 
