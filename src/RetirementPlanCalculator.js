@@ -34,7 +34,8 @@ const RetirementPlanCalculator = () => {
     if (point) {
       const formattedYear = Math.round(point.year);
       const formattedCapital = formatNumber(point.capital);
-      setAnimatedMessage(`📈 Cuando tengas ${formattedYear} tendrás $${formattedCapital} pesos`);
+      const monthlyYield = (point.capital * returnRate) / 12;
+      setAnimatedMessage(`📈 Cuando cumplas ${formattedYear} tendrás $${formattedCapital} pesos, que te estarán generando $${formatNumber(monthlyYield)} mensuales`);
     }
   };
 
@@ -73,10 +74,13 @@ const RetirementPlanCalculator = () => {
       if (lastPoint) {
         const formattedYear = Math.round(lastPoint.year);
         const formattedCapital = formatNumber(lastPoint.capital);
-        setAnimatedMessage(`📈 Cuando cumplas ${formattedYear} tendrás $${formattedCapital} pesos`);
+        const monthlyYield = (point.capital * returnRate) / 12;
+        setAnimatedMessage(`📈 Cuando cumplas ${formattedYear} tendrás $${formattedCapital} pesos, que te estarán generando $${formatNumber(monthlyYield)} mensuales`);
 
         if (animationIndex + 1 === currentPlan.projection.length) {
-          setFinalMessage(`🎯 Meta alcanzada: tendrás $${formattedCapital} en el año ${formattedYear}`);
+          const monthlyYield = (lastPoint.capital * returnRate) / 12;
+          setFinalMessage(`🎯 Meta alcanzada: tendrás $${formattedCapital} en el año ${formattedYear}, que te estarán generando $${formatNumber(monthlyYield)} mensuales`);
+
         }
       }
 
@@ -368,7 +372,7 @@ const RetirementPlanCalculator = () => {
       // Inicia la animación
       setVisibleProjection([newPlan.projection[0]]);
       setAnimationIndex(1);
-      setAnimatedMessage(`📈 En el año ${Math.round(newPlan.projection[0].year)} tendrás $${formatNumber(newPlan.projection[0].capital)} pesos`);
+      setAnimatedMessage(`📈 Cuando cumplas ${Math.round(newPlan.projection[0].year)} tendrás $${formatNumber(newPlan.projection[0].capital)} pesos`);
 
       return updatedPlans;
     });
