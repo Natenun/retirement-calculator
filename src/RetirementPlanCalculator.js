@@ -73,7 +73,7 @@ const RetirementPlanCalculator = () => {
       if (lastPoint) {
         const formattedYear = Math.round(lastPoint.year);
         const formattedCapital = formatNumber(lastPoint.capital);
-        setAnimatedMessage(`📈 En el año ${formattedYear} tendrás $${formattedCapital} pesos`);
+        setAnimatedMessage(`📈 Cuando cumplas ${formattedYear} tendrás $${formattedCapital} pesos`);
 
         if (animationIndex + 1 === currentPlan.projection.length) {
           setFinalMessage(`🎯 Meta alcanzada: tendrás $${formattedCapital} en el año ${formattedYear}`);
