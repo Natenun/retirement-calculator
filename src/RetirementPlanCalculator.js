@@ -74,7 +74,7 @@ const RetirementPlanCalculator = () => {
       if (lastPoint) {
         const formattedYear = Math.round(lastPoint.year);
         const formattedCapital = formatNumber(lastPoint.capital);
-        const monthlyYield = (point.capital * returnRate) / 12;
+        const monthlyYield = (lastPoint.capital * returnRate) / 12;
         setAnimatedMessage(`📈 Cuando cumplas ${formattedYear} tendrás $${formattedCapital} pesos, que te estarán generando $${formatNumber(monthlyYield)} mensuales`);
 
         if (animationIndex + 1 === currentPlan.projection.length) {
